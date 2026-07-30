@@ -1,0 +1,195 @@
+{
+  "$defs": {
+    "Fact": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        },
+        "status": {
+          "$ref": "#/$defs/FactStatus"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "requires_confirmation": {
+          "default": false,
+          "title": "Requires Confirmation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "status",
+        "confidence"
+      ],
+      "title": "Fact",
+      "type": "object"
+    },
+    "FactConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "field_name": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Field Name",
+          "type": "string"
+        },
+        "existing": {
+          "$ref": "#/$defs/Fact"
+        },
+        "incoming": {
+          "$ref": "#/$defs/Fact"
+        },
+        "resolution_required": {
+          "default": true,
+          "title": "Resolution Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "field_name",
+        "existing",
+        "incoming"
+      ],
+      "title": "FactConflict",
+      "type": "object"
+    },
+    "FactStatus": {
+      "enum": [
+        "reported",
+        "inferred",
+        "confirmed",
+        "unknown"
+      ],
+      "title": "FactStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "name": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Fact"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "sector": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Fact"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "size": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Fact"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "activities": {
+      "items": {
+        "$ref": "#/$defs/Fact"
+      },
+      "maxItems": 50,
+      "title": "Activities",
+      "type": "array"
+    },
+    "locations": {
+      "items": {
+        "$ref": "#/$defs/Fact"
+      },
+      "maxItems": 20,
+      "title": "Locations",
+      "type": "array"
+    },
+    "needs": {
+      "items": {
+        "$ref": "#/$defs/Fact"
+      },
+      "maxItems": 50,
+      "title": "Needs",
+      "type": "array"
+    },
+    "constraints": {
+      "items": {
+        "$ref": "#/$defs/Fact"
+      },
+      "maxItems": 50,
+      "title": "Constraints",
+      "type": "array"
+    },
+    "missing_information": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 50,
+      "title": "Missing Information",
+      "type": "array"
+    },
+    "conflicts": {
+      "items": {
+        "$ref": "#/$defs/FactConflict"
+      },
+      "maxItems": 50,
+      "title": "Conflicts",
+      "type": "array"
+    }
+  },
+  "title": "CompanyProfile",
+  "type": "object"
+}

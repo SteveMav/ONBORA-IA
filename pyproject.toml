@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "onbora-ai-v1"
+version = "0.1.0"
+description = "Module Django/SQLite de qualification IA et génération de rapports Onbora"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "Django==5.2.14",
+  "google-genai==2.13.0",
+  "pydantic==2.13.4",
+  "python-dotenv==1.2.2",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==9.0.2",
+  "pytest-django==4.11.1",
+]
+
+[tool.setuptools.packages.find]
+include = ["apps*", "config*"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py"]
+testpaths = ["apps", "tests"]
+addopts = "-q --strict-markers"

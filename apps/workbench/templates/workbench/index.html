@@ -1,0 +1,314 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Onbora AI — Workbench</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2317201d'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='serif' font-size='20' fill='white'%3EO%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{% static 'workbench/app.css' %}">
+  <script src="{% static 'workbench/app.js' %}" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{% url 'workbench:home' %}" aria-label="Accueil Onbora AI">
+      <span class="brand-mark" aria-hidden="true">O</span>
+      <span><strong>Onbora AI</strong><small>Qualification workbench</small></span>
+    </a>
+    <div class="provider" title="Fournisseur et modèle actifs">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span><strong>{{ provider }}</strong><small>{{ model }} · {{ mode }}</small></span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <nav class="sessions" aria-label="Sessions de test">
+      <div class="section-heading">
+        <div><p class="eyebrow">Sessions</p><h1>Tests récents</h1></div>
+        <form method="post" action="{% url 'workbench:create_session' %}">
+          {% csrf_token %}
+          <button class="new-session-button" type="submit" aria-label="Démarrer une conversation" title="Démarrer une conversation">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+            <span>Démarrer</span>
+          </button>
+        </form>
+      </div>
+      <div class="session-list">
+        {% for item in recent_conversations %}
+          <a href="{% url 'workbench:session_detail' item.pk %}" class="session-link {% if conversation.pk == item.pk %}active{% endif %}">
+            <span>Session {{ item.pk|stringformat:"03d" }}</span>
+            <small>{{ item.created_at|date:"d M, H:i" }}</small>
+          </a>
+        {% empty %}
+          <p class="subtle">Aucune session pour le moment.</p>
+        {% endfor %}
+      </div>
+    </nav>
+
+    {% if conversation %}
+    <section class="conversation-panel" aria-labelledby="conversation-title">
+      <div class="panel-header">
+        <div><p class="eyebrow">Session {{ conversation.pk|stringformat:"03d" }}</p><h2 id="conversation-title">Conversation de qualification</h2></div>
+        <span class="version">Profil v{{ conversation.state_version }}</span>
+      </div>
+
+      {% if error_message %}
+        <div class="alert" role="alert">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 6v5m0 3v.01M3.5 16.5h13L10 3.5l-6.5 13Z"/></svg>
+          <span>{{ error_message }}</span>
+        </div>
+      {% endif %}
+      {% if success_message %}
+        <div class="success-alert" role="status">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-9"/></svg>
+          <span>{{ success_message }}</span>
+        </div>
+      {% endif %}
+      {% if is_fake_provider %}
+        <div class="demo-warning" role="note">
+          <strong>Mode démonstration :</strong> les réponses sont simulées localement. Configurez Gemini pour converser avec un vrai LLM.
+        </div>
+      {% endif %}
+
+      <div class="thread" id="thread" aria-live="polite">
+        <article class="system-note welcome-note">
+          <span class="note-index">IA</span>
+          <div>
+            <strong>Bonjour, discutons d’abord de votre situation.</strong>
+            <p>Je vais vous poser quelques questions, une par une, pour comprendre ce que vous cherchez et ce qui pourrait vous être utile. Nous construirons la fiche entreprise progressivement.</p>
+            <p><b>Qu’est-ce qui vous amène aujourd’hui ?</b></p>
+          </div>
+        </article>
+        {% for message in messages %}
+          {% if message.role == 'user' %}
+            <article class="message {% if message.status == 'failed' %}failed{% endif %}">
+              <div class="message-meta"><span>Vous</span><time>{{ message.created_at|date:"H:i" }}</time></div>
+              <p>{{ message.content }}</p>
+              {% if message.status == 'failed' %}<small>Analyse interrompue · {{ message.error_code }}</small>{% endif %}
+            </article>
+          {% else %}
+            <article class="assistant-response">
+              <span class="note-index">IA</span>
+              <div><div class="assistant-meta"><strong>Assistant Onbora</strong><time>{{ message.created_at|date:"H:i" }}</time></div><p>{{ message.content }}</p></div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if ready_for_analysis and not analysis_complete %}
+        <section class="analysis-ready" role="status" aria-labelledby="analysis-ready-title">
+          <span class="ready-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-9"/></svg>
+          </span>
+          <div>
+            <p class="eyebrow">Qualification terminée</p>
+            <h3 id="analysis-ready-title">Les informations sont suffisantes</h3>
+            <p>{{ readiness_reason|default:"Le besoin et ses critères utiles sont suffisamment compris." }}</p>
+          </div>
+          <form method="post" action="{% url 'workbench:analyze_conversation' conversation.pk %}" data-loading-form>
+            {% csrf_token %}
+            <button class="primary-button" type="submit" data-loading-label="Analyse en cours…">
+              <span>Lancer l’analyse</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6"/></svg>
+            </button>
+          </form>
+        </section>
+      {% endif %}
+
+      <form class="composer" method="post" action="{% url 'workbench:submit_message' conversation.pk %}" data-loading-form>
+        {% csrf_token %}
+        <input type="hidden" name="idempotency_key" value="{{ idempotency_key }}">
+        <label for="message">Votre réponse</label>
+        <textarea id="message" name="message" rows="3" maxlength="20000" placeholder="Ex. École Lumière propose des formations professionnelles à Kinshasa…" required></textarea>
+        <div class="composer-footer">
+          <span>Votre réponse alimentera une fiche séparée à relire.</span>
+          <button class="primary-button" type="submit" data-loading-label="Envoi en cours…">
+            <span>Envoyer</span>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6"/></svg>
+          </button>
+        </div>
+        <div class="loading-line" aria-hidden="true"></div>
+      </form>
+    </section>
+
+    <aside class="insights-panel" aria-label="Profil et livrables">
+      {% if not analysis_complete %}
+      <section class="insight-section analysis-gate">
+        <div class="section-heading compact">
+          <div><p class="eyebrow">Avant l’analyse</p><h2>Progression</h2></div>
+          {% if ready_for_analysis %}<span class="validation-state confirmed">Prêt</span>{% else %}<span class="validation-state draft">En discussion</span>{% endif %}
+        </div>
+        <ol class="qualification-steps">
+          <li class="active"><span>1</span><div><strong>Conversation</strong><small>Le chatbot collecte le contexte.</small></div></li>
+          <li class="{% if ready_for_analysis %}active{% endif %}"><span>2</span><div><strong>Informations suffisantes</strong><small>Seuls les critères utiles au besoin sont demandés.</small></div></li>
+          <li><span>3</span><div><strong>Analyse</strong><small>Vous la lancez explicitement.</small></div></li>
+        </ol>
+        {% if readiness_reason %}
+          <p class="readiness-copy">{{ readiness_reason }}</p>
+        {% endif %}
+        {% if ready_for_analysis %}
+          <form method="post" action="{% url 'workbench:analyze_conversation' conversation.pk %}" data-loading-form>
+            {% csrf_token %}
+            <button class="confirm-button" type="submit" data-loading-label="Analyse en cours…">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6"/></svg>
+              <span>Lancer l’analyse</span>
+            </button>
+          </form>
+        {% else %}
+          <button class="secondary-button analysis-disabled" type="button" disabled>
+            <span>Lancer l’analyse</span><small>Informations encore incomplètes</small>
+          </button>
+        {% endif %}
+      </section>
+      <section class="insight-section">
+        <div class="section-heading compact"><div><p class="eyebrow">Après l’analyse</p><h2>Ce qui sera produit</h2></div></div>
+        <ul class="future-outputs">
+          <li>Une fiche entreprise à relire et corriger</li>
+          <li>Les offres Orange adaptées au problème exprimé</li>
+          <li>Les rapports Business Twin et KAM après confirmation</li>
+        </ul>
+      </section>
+      {% else %}
+      <section class="insight-section">
+        <div class="section-heading compact">
+          <div><p class="eyebrow">Section dédiée</p><h2>Fiche entreprise</h2></div>
+          {% if profile_confirmed %}<span class="validation-state confirmed">Confirmée</span>{% elif profile %}<span class="validation-state draft">À vérifier</span>{% else %}<span class="count">0</span>{% endif %}
+        </div>
+        {% if profile_facts %}
+          <p class="profile-instruction">Relisez les informations extraites du chat. Corrigez ce qui est nécessaire, puis confirmez cette version avant de générer les rapports.</p>
+          <form class="profile-form" method="post" action="{% url 'workbench:confirm_profile' conversation.pk %}" data-loading-form>
+            {% csrf_token %}
+            <div class="field-grid">
+              <div class="field"><label for="profile-name">Nom de l’entreprise</label><input id="profile-name" name="name" value="{{ profile_form.name }}" maxlength="500" placeholder="Nom officiel"></div>
+              <div class="field"><label for="profile-sector">Secteur</label><input id="profile-sector" name="sector" value="{{ profile_form.sector }}" maxlength="500" placeholder="Ex. éducation"></div>
+              <div class="field"><label for="profile-size">Effectif</label><input id="profile-size" name="size" value="{{ profile_form.size }}" type="number" min="1" max="10000000" placeholder="Nombre de personnes"></div>
+              <div class="field"><label for="profile-locations">Implantations</label><textarea id="profile-locations" name="locations" rows="2" maxlength="5000" placeholder="Une implantation par ligne">{{ profile_form.locations }}</textarea></div>
+            </div>
+            <div class="field"><label for="profile-activities">Activités</label><textarea id="profile-activities" name="activities" rows="2" maxlength="10000" placeholder="Une activité par ligne">{{ profile_form.activities }}</textarea></div>
+            <div class="field"><label for="profile-needs">Besoins</label><textarea id="profile-needs" name="needs" rows="2" maxlength="10000" placeholder="Un besoin par ligne">{{ profile_form.needs }}</textarea></div>
+            <div class="field"><label for="profile-constraints">Contraintes</label><textarea id="profile-constraints" name="constraints" rows="2" maxlength="10000" placeholder="Une contrainte par ligne">{{ profile_form.constraints }}</textarea></div>
+            <button class="confirm-button" type="submit" data-loading-label="Confirmation…">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-9"/></svg>
+              <span>{% if profile_confirmed %}Enregistrer les corrections{% else %}Confirmer la fiche{% endif %}</span>
+            </button>
+          </form>
+        {% else %}
+          <div class="empty-state"><span class="empty-glyph" aria-hidden="true"></span><p>Après votre première réponse, les informations extraites apparaîtront ici pour vérification.</p></div>
+        {% endif %}
+      </section>
+
+      <section class="insight-section recommendations">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Solutions Orange</p>
+            <h2>Offres recommandées {% if not profile_confirmed and recommendations %}<small>à valider</small>{% endif %}</h2>
+          </div>
+        </div>
+        <p class="offer-intro">Ces propositions traduisent les problèmes décrits pendant la conversation en solutions du catalogue Orange.</p>
+        {% if recommendations.items %}
+          <ol class="offer-list">
+            {% for item in recommendations.items %}
+              <li class="offer-card">
+                <div class="offer-rank">{{ forloop.counter|stringformat:"02d" }}</div>
+                <div class="offer-content">
+                  <h3>{{ item.service_name }}</h3>
+                  {% if item.service_category %}<p class="offer-category">{{ item.service_category }}</p>{% endif %}
+                  <p class="offer-category">{{ item.provider_name }} · {% if item.portfolio_scope == "rdc" %}offre publiée en RDC{% else %}portefeuille international{% endif %}</p>
+                  {% if item.availability_note %}
+                    <div class="offer-detail prerequisite">
+                      <strong>Disponibilité en RDC</strong>
+                      <p>{{ item.availability_note }}</p>
+                    </div>
+                  {% endif %}
+                  <p class="offer-rationale">{{ item.customer_explanation|default:"Cette offre correspond au besoin exprimé pendant la conversation." }}</p>
+                  <p class="offer-description">{{ item.service_description|default:"Une solution du catalogue Orange à examiner avec un conseiller." }}</p>
+                  {% if item.benefits %}
+                    <div class="offer-detail">
+                      <strong>Ce que cela peut vous apporter</strong>
+                      <ul>{% for benefit in item.benefits %}<li>{{ benefit }}</li>{% endfor %}</ul>
+                    </div>
+                  {% endif %}
+                  {% if item.prerequisites %}
+                    <div class="offer-detail prerequisite">
+                      <strong>À vérifier avant souscription</strong>
+                      <ul>{% for prerequisite in item.prerequisites %}<li>{{ prerequisite }}</li>{% endfor %}</ul>
+                    </div>
+                  {% endif %}
+                  {% if item.variant_names %}
+                    <div class="offer-detail">
+                      <strong>Formules publiées</strong>
+                      <p>{{ item.variant_names|join:", " }}</p>
+                    </div>
+                  {% endif %}
+                  {% if item.commercial_terms %}
+                    <div class="offer-detail prerequisite">
+                      <strong>Conditions commerciales publiées</strong>
+                      <ul>{% for term in item.commercial_terms %}<li>{{ term }}</li>{% endfor %}</ul>
+                    </div>
+                  {% endif %}
+                  {% if item.source_url %}<p><a href="{{ item.source_url }}" target="_blank" rel="noopener noreferrer">Voir la source officielle {{ item.provider_name }}</a></p>{% endif %}
+                </div>
+              </li>
+            {% endfor %}
+          </ol>
+          <p class="catalog-disclaimer">Catalogue public Orange Business RDC et portefeuille international Orange Business / Orange Cyberdefense vérifiés le 28 juillet 2026. Les offres internationales sont des familles de solutions : leur disponibilité, leur couverture, leurs tarifs et leurs conditions de livraison en RDC doivent être confirmés par un conseiller Orange.</p>
+        {% else %}
+          <p class="subtle">Aucune offre du catalogue ne correspond suffisamment au besoin exprimé. La demande peut être reprise par un conseiller.</p>
+        {% endif %}
+      </section>
+
+      <section class="insight-section deliverables">
+        <div class="section-heading compact"><div><p class="eyebrow">Livrables</p><h2>Rapports</h2></div></div>
+        <div class="report-actions">
+          <form method="post" action="{% url 'workbench:generate_report' conversation.pk 'business_twin' %}" data-loading-form>{% csrf_token %}<button class="secondary-button" type="submit" {% if not profile_confirmed %}disabled{% endif %}><span>Business Twin</span><small>{% if twin_report %}Actualiser{% elif profile_confirmed %}Générer{% else %}Fiche non confirmée{% endif %}</small></button></form>
+          <form method="post" action="{% url 'workbench:generate_report' conversation.pk 'kam' %}" data-loading-form>{% csrf_token %}<button class="secondary-button" type="submit" {% if not profile_confirmed %}disabled{% endif %}><span>Rapport KAM</span><small>{% if kam_report %}Actualiser{% elif profile_confirmed %}Générer{% else %}Fiche non confirmée{% endif %}</small></button></form>
+        </div>
+        {% if profile and not profile_confirmed %}<p class="locked-hint">Les rapports seront disponibles après confirmation de la fiche entreprise.</p>{% endif %}
+
+        {% if twin_report or kam_report %}
+          <div class="report-tabs" role="tablist" aria-label="Rapports générés">
+            {% if twin_report %}<button type="button" role="tab" aria-selected="true" aria-controls="twin-content" data-tab="twin-content">Twin</button>{% endif %}
+            {% if kam_report %}<button type="button" role="tab" aria-selected="{% if twin_report %}false{% else %}true{% endif %}" aria-controls="kam-content" data-tab="kam-content">KAM</button>{% endif %}
+          </div>
+          {% if twin_report %}
+            <article class="report-preview" id="twin-content" role="tabpanel">
+              <div class="report-status"><span>{{ twin_report.status }}</span><time>{{ twin_report.created_at|date:"d M · H:i" }}</time></div>
+              <h3>{{ twin_report.data.company_summary.name|default:"Entreprise sans nom" }}</h3>
+              <p>{{ twin_report.data.company_summary.sector|default:"Secteur à préciser" }} · {{ twin_report.data.company_summary.size|default:"Taille à préciser" }}</p>
+              <h4>Ce qui est intéressant</h4>
+              <ul>{% for item in twin_report.data.interesting_services %}<li>{{ item.description }}</li>{% empty %}<li>Encore aucune opportunité assez qualifiée.</li>{% endfor %}</ul>
+              <h4>Prochaines actions</h4>
+              <ul>{% for item in twin_report.data.recommended_next_actions %}<li>{{ item.description }}</li>{% endfor %}</ul>
+              <div class="export-actions" aria-label="Exporter le Business Twin">
+                <a href="{% url 'workbench:export_report' conversation.pk 'business_twin' twin_report.pk 'html' %}" target="_blank" rel="noopener">HTML · imprimer</a>
+                <a href="{% url 'workbench:export_report' conversation.pk 'business_twin' twin_report.pk 'json' %}" download>JSON</a>
+              </div>
+            </article>
+          {% endif %}
+          {% if kam_report %}
+            <article class="report-preview" id="kam-content" role="tabpanel" {% if twin_report %}hidden{% endif %}>
+              <div class="report-status"><span>{{ kam_report.status }}</span><time>{{ kam_report.created_at|date:"d M · H:i" }}</time></div>
+              <h3>Synthèse KAM</h3><p>{{ kam_report.data.executive_summary }}</p>
+              <h4>Opportunités</h4><ul>{% for item in kam_report.data.opportunities %}<li>{{ item.description }}</li>{% endfor %}</ul>
+              <div class="export-actions" aria-label="Exporter le rapport KAM">
+                <a href="{% url 'workbench:export_report' conversation.pk 'kam' kam_report.pk 'html' %}" target="_blank" rel="noopener">HTML · imprimer</a>
+                <a href="{% url 'workbench:export_report' conversation.pk 'kam' kam_report.pk 'json' %}" download>JSON</a>
+              </div>
+            </article>
+          {% endif %}
+        {% endif %}
+      </section>
+      {% endif %}
+    </aside>
+    {% else %}
+      <section class="welcome">
+        <p class="eyebrow">Environnement local</p>
+        <h1>Tester l’intelligence métier, sans construire toute la plateforme.</h1>
+        <p>Démarrez une conversation. Le chatbot vous posera les questions nécessaires, puis vous proposera de lancer l’analyse lorsque le contexte sera suffisant.</p>
+        <form method="post" action="{% url 'workbench:create_session' %}">{% csrf_token %}<button class="primary-button" type="submit"><span>Démarrer la conversation</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 6 6-6 6"/></svg></button></form>
+      </section>
+    {% endif %}
+  </main>
+</body>
+</html>

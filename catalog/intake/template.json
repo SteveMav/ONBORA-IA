@@ -1,0 +1,110 @@
+{
+  "intake_schema_version": "1.0",
+  "catalog": {
+    "schema_version": "1.0",
+    "catalog_version": "orange-business-rdc-global-AAAA-MM-JJ",
+    "status": "draft",
+    "source_name": "À confirmer — propriétaire officiel du catalogue",
+    "source_url": "",
+    "source_checked_on": null,
+    "services": [
+      {
+        "service_id": "offer_to_replace",
+        "name": "À remplacer — nom officiel de l’offre",
+        "category": "À confirmer",
+        "description": "À remplacer par une description factuelle issue d’une source officielle.",
+        "allowed_benefits": [
+          "À confirmer auprès du responsable métier"
+        ],
+        "target_customers": [
+          "À confirmer"
+        ],
+        "variants": [],
+        "commercial_terms": [
+          "Tarification à confirmer — ne saisir aucun prix sans source officielle"
+        ],
+        "prerequisites": [
+          "À confirmer"
+        ],
+        "exclusions": [
+          "À confirmer"
+        ],
+        "source_url": "",
+        "source_checked_on": null,
+        "source_status": "official_page",
+        "provider_name": "Orange Business",
+        "portfolio_scope": "rdc",
+        "portfolio_level": "local_offer",
+        "rdc_availability": "published_local",
+        "availability_note": "",
+        "match": {
+          "need_keywords": [
+            "à_remplacer"
+          ],
+          "sectors": [],
+          "excluded_sectors": [],
+          "required_profile_fields": []
+        }
+      }
+    ]
+  },
+  "service_reviews": [
+    {
+      "service_id": "offer_to_replace",
+      "provenance": [
+        {
+          "verification_status": "to_collect",
+          "title": "",
+          "publisher": "",
+          "url": "",
+          "checked_on": null,
+          "supports": [
+            "name",
+            "description",
+            "allowed_benefits",
+            "eligibility",
+            "coverage",
+            "pricing"
+          ],
+          "notes": "À remplacer par la source primaire de l’offre."
+        }
+      ],
+      "eligibility_criteria": [
+        "À confirmer avec le responsable métier"
+      ],
+      "coverage": {
+        "status": "unknown",
+        "areas": [],
+        "verification_required": true,
+        "notes": "À confirmer; ne pas déduire une couverture nationale sans preuve."
+      },
+      "pricing": {
+        "status": "not_collected",
+        "price_terms": [],
+        "currency": null,
+        "billing_period": null,
+        "source_url": "",
+        "checked_on": null,
+        "notes": "À confirmer; ne saisir aucun prix ou intervalle sans source officielle datée."
+      },
+      "validation": {
+        "status": "draft",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      },
+      "review_checklist": {
+        "official_name_verified": false,
+        "description_verified": false,
+        "benefits_verified": false,
+        "eligibility_verified": false,
+        "prerequisites_verified": false,
+        "exclusions_verified": false,
+        "coverage_verified": false,
+        "pricing_verified_without_invention": false,
+        "matching_terms_verified": false,
+        "sources_are_current": false
+      }
+    }
+  ]
+}

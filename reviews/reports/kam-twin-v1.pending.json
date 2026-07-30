@@ -1,0 +1,1110 @@
+{
+  "review_schema_version": "1.0",
+  "generated_on": "2026-07-29",
+  "catalog_version": "orange-business-rdc-global-2026-07-28",
+  "minimum_scenarios_required": 5,
+  "samples": [
+    {
+      "sample_id": "global-cloud-migration.kam",
+      "scenario_id": "global-cloud-migration",
+      "report_type": "kam",
+      "report": {
+        "schema_version": "1.0",
+        "status": "final",
+        "executive_summary": "Synthèse de Groupe Horizon. 1 opportunité(s) à examiner.",
+        "confirmed_facts": [
+          {
+            "description": "name : Groupe Horizon",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "sector : services",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "size : 350",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "activities : services numériques",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "locations : Kinshasa",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "locations : Johannesburg",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "needs : migration cloud hybride",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "constraints : résidence des données et continuité",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "reported_facts": [],
+        "inferred_insights": [],
+        "needs": [
+          {
+            "description": "migration cloud hybride",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "opportunities": [
+          {
+            "description": "Cloud international Orange Business — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « migration cloud ». Disponibilité en RDC : Portefeuille mondial officiel; éligibilité, contractualisation, support et hébergement pour une entité en RDC à confirmer avec Orange Business.",
+            "status": "inferred",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1",
+              "catalog:global_cloud_portfolio"
+            ],
+            "service_id": "global_cloud_portfolio"
+          }
+        ],
+        "points_to_verify": [],
+        "recommended_next_actions": [
+          {
+            "description": "Faire valider les opportunités proposées par un responsable métier.",
+            "status": "inferred",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1",
+              "catalog:global_cloud_portfolio"
+            ],
+            "service_id": null
+          }
+        ],
+        "catalog_version": "orange-business-rdc-global-2026-07-28"
+      },
+      "checklist": {
+        "facts_and_inferences_are_clear": false,
+        "opportunities_are_supported": false,
+        "limitations_are_visible": false,
+        "content_is_useful_for_target_role": false,
+        "next_actions_are_actionable": false,
+        "export_is_readable": false
+      },
+      "decision": {
+        "status": "pending",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      }
+    },
+    {
+      "sample_id": "global-cloud-migration.business_twin",
+      "scenario_id": "global-cloud-migration",
+      "report_type": "business_twin",
+      "report": {
+        "schema_version": "1.0",
+        "status": "final",
+        "company_summary": {
+          "name": "Groupe Horizon",
+          "sector": "services",
+          "size": "350",
+          "activities": [
+            "services numériques"
+          ],
+          "locations": [
+            "Kinshasa",
+            "Johannesburg"
+          ]
+        },
+        "current_situation": [
+          {
+            "description": "activité : services numériques",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "localisation : Kinshasa",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "localisation : Johannesburg",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "needs_and_pain_points": [
+          {
+            "description": "migration cloud hybride",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "business_opportunities": [
+          {
+            "description": "Cloud international Orange Business — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « migration cloud ». Disponibilité en RDC : Portefeuille mondial officiel; éligibilité, contractualisation, support et hébergement pour une entité en RDC à confirmer avec Orange Business.",
+            "status": "inferred",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1",
+              "catalog:global_cloud_portfolio"
+            ],
+            "service_id": "global_cloud_portfolio"
+          }
+        ],
+        "interesting_services": [
+          {
+            "description": "Cloud international Orange Business — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « migration cloud ». Disponibilité en RDC : Portefeuille mondial officiel; éligibilité, contractualisation, support et hébergement pour une entité en RDC à confirmer avec Orange Business.",
+            "status": "inferred",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1",
+              "catalog:global_cloud_portfolio"
+            ],
+            "service_id": "global_cloud_portfolio"
+          }
+        ],
+        "risks_and_constraints": [
+          {
+            "description": "résidence des données et continuité",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-cloud-migration:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "missing_information": [],
+        "recommended_next_actions": [],
+        "sources": [
+          "review:global-cloud-migration:turn:1",
+          "catalog:global_cloud_portfolio"
+        ],
+        "catalog_version": "orange-business-rdc-global-2026-07-28"
+      },
+      "checklist": {
+        "facts_and_inferences_are_clear": false,
+        "opportunities_are_supported": false,
+        "limitations_are_visible": false,
+        "content_is_useful_for_target_role": false,
+        "next_actions_are_actionable": false,
+        "export_is_readable": false
+      },
+      "decision": {
+        "status": "pending",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      }
+    },
+    {
+      "sample_id": "global-managed-cybersecurity.kam",
+      "scenario_id": "global-managed-cybersecurity",
+      "report_type": "kam",
+      "report": {
+        "schema_version": "1.0",
+        "status": "final",
+        "executive_summary": "Synthèse de Industries Kivu. 1 opportunité(s) à examiner.",
+        "confirmed_facts": [
+          {
+            "description": "name : Industries Kivu",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "sector : industry",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "size : 500",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "activities : production industrielle",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "locations : Kinshasa",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "locations : Lubumbashi",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "needs : service sécurité managé avec mdr",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "constraints : surveillance continue et systèmes OT",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "reported_facts": [],
+        "inferred_insights": [],
+        "needs": [
+          {
+            "description": "service sécurité managé avec mdr",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "opportunities": [
+          {
+            "description": "Services managés Orange Cyberdefense — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « service sécurité managé » et qu’elle est pertinente pour votre secteur. Disponibilité en RDC : Orange Cyberdefense annonce un support international; le modèle de vente, d’onboarding et d’opérations applicable à la RDC doit être confirmé.",
+            "status": "inferred",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1",
+              "catalog:ocd_managed_services"
+            ],
+            "service_id": "ocd_managed_services"
+          }
+        ],
+        "points_to_verify": [],
+        "recommended_next_actions": [
+          {
+            "description": "Faire valider les opportunités proposées par un responsable métier.",
+            "status": "inferred",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1",
+              "catalog:ocd_managed_services"
+            ],
+            "service_id": null
+          }
+        ],
+        "catalog_version": "orange-business-rdc-global-2026-07-28"
+      },
+      "checklist": {
+        "facts_and_inferences_are_clear": false,
+        "opportunities_are_supported": false,
+        "limitations_are_visible": false,
+        "content_is_useful_for_target_role": false,
+        "next_actions_are_actionable": false,
+        "export_is_readable": false
+      },
+      "decision": {
+        "status": "pending",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      }
+    },
+    {
+      "sample_id": "global-managed-cybersecurity.business_twin",
+      "scenario_id": "global-managed-cybersecurity",
+      "report_type": "business_twin",
+      "report": {
+        "schema_version": "1.0",
+        "status": "final",
+        "company_summary": {
+          "name": "Industries Kivu",
+          "sector": "industry",
+          "size": "500",
+          "activities": [
+            "production industrielle"
+          ],
+          "locations": [
+            "Kinshasa",
+            "Lubumbashi"
+          ]
+        },
+        "current_situation": [
+          {
+            "description": "activité : production industrielle",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "localisation : Kinshasa",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "localisation : Lubumbashi",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "needs_and_pain_points": [
+          {
+            "description": "service sécurité managé avec mdr",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "business_opportunities": [
+          {
+            "description": "Services managés Orange Cyberdefense — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « service sécurité managé » et qu’elle est pertinente pour votre secteur. Disponibilité en RDC : Orange Cyberdefense annonce un support international; le modèle de vente, d’onboarding et d’opérations applicable à la RDC doit être confirmé.",
+            "status": "inferred",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1",
+              "catalog:ocd_managed_services"
+            ],
+            "service_id": "ocd_managed_services"
+          }
+        ],
+        "interesting_services": [
+          {
+            "description": "Services managés Orange Cyberdefense — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « service sécurité managé » et qu’elle est pertinente pour votre secteur. Disponibilité en RDC : Orange Cyberdefense annonce un support international; le modèle de vente, d’onboarding et d’opérations applicable à la RDC doit être confirmé.",
+            "status": "inferred",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1",
+              "catalog:ocd_managed_services"
+            ],
+            "service_id": "ocd_managed_services"
+          }
+        ],
+        "risks_and_constraints": [
+          {
+            "description": "surveillance continue et systèmes OT",
+            "status": "confirmed",
+            "source_refs": [
+              "review:global-managed-cybersecurity:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "missing_information": [],
+        "recommended_next_actions": [],
+        "sources": [
+          "review:global-managed-cybersecurity:turn:1",
+          "catalog:ocd_managed_services"
+        ],
+        "catalog_version": "orange-business-rdc-global-2026-07-28"
+      },
+      "checklist": {
+        "facts_and_inferences_are_clear": false,
+        "opportunities_are_supported": false,
+        "limitations_are_visible": false,
+        "content_is_useful_for_target_role": false,
+        "next_actions_are_actionable": false,
+        "export_is_readable": false
+      },
+      "decision": {
+        "status": "pending",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      }
+    },
+    {
+      "sample_id": "school-connectivity-backup.kam",
+      "scenario_id": "school-connectivity-backup",
+      "report_type": "kam",
+      "report": {
+        "schema_version": "1.0",
+        "status": "final",
+        "executive_summary": "Synthèse de École Lumière. 1 opportunité(s) à examiner.",
+        "confirmed_facts": [
+          {
+            "description": "name : École Lumière",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "sector : education",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "size : 25",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "activities : formation professionnelle",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "locations : Kinshasa",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "needs : connexion internet stable",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "needs : sauvegarde des données",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "reported_facts": [],
+        "inferred_insights": [],
+        "needs": [
+          {
+            "description": "connexion internet stable",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "sauvegarde des données",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "opportunities": [
+          {
+            "description": "Internet illimité Fibre — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « internet ».",
+            "status": "inferred",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1",
+              "catalog:internet_fibre_illimite"
+            ],
+            "service_id": "internet_fibre_illimite"
+          }
+        ],
+        "points_to_verify": [],
+        "recommended_next_actions": [
+          {
+            "description": "Faire valider les opportunités proposées par un responsable métier.",
+            "status": "inferred",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1",
+              "catalog:internet_fibre_illimite"
+            ],
+            "service_id": null
+          }
+        ],
+        "catalog_version": "orange-business-rdc-global-2026-07-28"
+      },
+      "checklist": {
+        "facts_and_inferences_are_clear": false,
+        "opportunities_are_supported": false,
+        "limitations_are_visible": false,
+        "content_is_useful_for_target_role": false,
+        "next_actions_are_actionable": false,
+        "export_is_readable": false
+      },
+      "decision": {
+        "status": "pending",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      }
+    },
+    {
+      "sample_id": "school-connectivity-backup.business_twin",
+      "scenario_id": "school-connectivity-backup",
+      "report_type": "business_twin",
+      "report": {
+        "schema_version": "1.0",
+        "status": "final",
+        "company_summary": {
+          "name": "École Lumière",
+          "sector": "education",
+          "size": "25",
+          "activities": [
+            "formation professionnelle"
+          ],
+          "locations": [
+            "Kinshasa"
+          ]
+        },
+        "current_situation": [
+          {
+            "description": "activité : formation professionnelle",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "localisation : Kinshasa",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "needs_and_pain_points": [
+          {
+            "description": "connexion internet stable",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "sauvegarde des données",
+            "status": "confirmed",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "business_opportunities": [
+          {
+            "description": "Internet illimité Fibre — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « internet ».",
+            "status": "inferred",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1",
+              "catalog:internet_fibre_illimite"
+            ],
+            "service_id": "internet_fibre_illimite"
+          }
+        ],
+        "interesting_services": [
+          {
+            "description": "Internet illimité Fibre — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « internet ».",
+            "status": "inferred",
+            "source_refs": [
+              "review:school-connectivity-backup:turn:1",
+              "catalog:internet_fibre_illimite"
+            ],
+            "service_id": "internet_fibre_illimite"
+          }
+        ],
+        "risks_and_constraints": [],
+        "missing_information": [],
+        "recommended_next_actions": [],
+        "sources": [
+          "review:school-connectivity-backup:turn:1",
+          "catalog:internet_fibre_illimite"
+        ],
+        "catalog_version": "orange-business-rdc-global-2026-07-28"
+      },
+      "checklist": {
+        "facts_and_inferences_are_clear": false,
+        "opportunities_are_supported": false,
+        "limitations_are_visible": false,
+        "content_is_useful_for_target_role": false,
+        "next_actions_are_actionable": false,
+        "export_is_readable": false
+      },
+      "decision": {
+        "status": "pending",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      }
+    },
+    {
+      "sample_id": "shop-payments.kam",
+      "scenario_id": "shop-payments",
+      "report_type": "kam",
+      "report": {
+        "schema_version": "1.0",
+        "status": "final",
+        "executive_summary": "Synthèse de Boutique Kivu. 1 opportunité(s) à examiner.",
+        "confirmed_facts": [
+          {
+            "description": "name : Boutique Kivu",
+            "status": "confirmed",
+            "source_refs": [
+              "review:shop-payments:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "sector : commerce",
+            "status": "confirmed",
+            "source_refs": [
+              "review:shop-payments:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "size : 8",
+            "status": "confirmed",
+            "source_refs": [
+              "review:shop-payments:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "activities : vente au détail",
+            "status": "confirmed",
+            "source_refs": [
+              "review:shop-payments:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "locations : Goma",
+            "status": "confirmed",
+            "source_refs": [
+              "review:shop-payments:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "needs : paiement et encaissement mobile money",
+            "status": "confirmed",
+            "source_refs": [
+              "review:shop-payments:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "reported_facts": [],
+        "inferred_insights": [],
+        "needs": [
+          {
+            "description": "paiement et encaissement mobile money",
+            "status": "confirmed",
+            "source_refs": [
+              "review:shop-payments:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "opportunities": [
+          {
+            "description": "API Orange Money — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « mobile money » et qu’elle est pertinente pour votre secteur.",
+            "status": "inferred",
+            "source_refs": [
+              "review:shop-payments:turn:1",
+              "catalog:api_orange_money"
+            ],
+            "service_id": "api_orange_money"
+          }
+        ],
+        "points_to_verify": [],
+        "recommended_next_actions": [
+          {
+            "description": "Faire valider les opportunités proposées par un responsable métier.",
+            "status": "inferred",
+            "source_refs": [
+              "review:shop-payments:turn:1",
+              "catalog:api_orange_money"
+            ],
+            "service_id": null
+          }
+        ],
+        "catalog_version": "orange-business-rdc-global-2026-07-28"
+      },
+      "checklist": {
+        "facts_and_inferences_are_clear": false,
+        "opportunities_are_supported": false,
+        "limitations_are_visible": false,
+        "content_is_useful_for_target_role": false,
+        "next_actions_are_actionable": false,
+        "export_is_readable": false
+      },
+      "decision": {
+        "status": "pending",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      }
+    },
+    {
+      "sample_id": "shop-payments.business_twin",
+      "scenario_id": "shop-payments",
+      "report_type": "business_twin",
+      "report": {
+        "schema_version": "1.0",
+        "status": "final",
+        "company_summary": {
+          "name": "Boutique Kivu",
+          "sector": "commerce",
+          "size": "8",
+          "activities": [
+            "vente au détail"
+          ],
+          "locations": [
+            "Goma"
+          ]
+        },
+        "current_situation": [
+          {
+            "description": "activité : vente au détail",
+            "status": "confirmed",
+            "source_refs": [
+              "review:shop-payments:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "localisation : Goma",
+            "status": "confirmed",
+            "source_refs": [
+              "review:shop-payments:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "needs_and_pain_points": [
+          {
+            "description": "paiement et encaissement mobile money",
+            "status": "confirmed",
+            "source_refs": [
+              "review:shop-payments:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "business_opportunities": [
+          {
+            "description": "API Orange Money — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « mobile money » et qu’elle est pertinente pour votre secteur.",
+            "status": "inferred",
+            "source_refs": [
+              "review:shop-payments:turn:1",
+              "catalog:api_orange_money"
+            ],
+            "service_id": "api_orange_money"
+          }
+        ],
+        "interesting_services": [
+          {
+            "description": "API Orange Money — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « mobile money » et qu’elle est pertinente pour votre secteur.",
+            "status": "inferred",
+            "source_refs": [
+              "review:shop-payments:turn:1",
+              "catalog:api_orange_money"
+            ],
+            "service_id": "api_orange_money"
+          }
+        ],
+        "risks_and_constraints": [],
+        "missing_information": [],
+        "recommended_next_actions": [],
+        "sources": [
+          "review:shop-payments:turn:1",
+          "catalog:api_orange_money"
+        ],
+        "catalog_version": "orange-business-rdc-global-2026-07-28"
+      },
+      "checklist": {
+        "facts_and_inferences_are_clear": false,
+        "opportunities_are_supported": false,
+        "limitations_are_visible": false,
+        "content_is_useful_for_target_role": false,
+        "next_actions_are_actionable": false,
+        "export_is_readable": false
+      },
+      "decision": {
+        "status": "pending",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      }
+    },
+    {
+      "sample_id": "security-assessment.kam",
+      "scenario_id": "security-assessment",
+      "report_type": "kam",
+      "report": {
+        "schema_version": "1.0",
+        "status": "final",
+        "executive_summary": "Synthèse de Services Horizon. 1 opportunité(s) à examiner.",
+        "confirmed_facts": [
+          {
+            "description": "name : Services Horizon",
+            "status": "confirmed",
+            "source_refs": [
+              "review:security-assessment:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "sector : services",
+            "status": "confirmed",
+            "source_refs": [
+              "review:security-assessment:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "size : 40",
+            "status": "confirmed",
+            "source_refs": [
+              "review:security-assessment:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "activities : services professionnels",
+            "status": "confirmed",
+            "source_refs": [
+              "review:security-assessment:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "locations : Kinshasa",
+            "status": "confirmed",
+            "source_refs": [
+              "review:security-assessment:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "needs : protection et cybersécurité",
+            "status": "confirmed",
+            "source_refs": [
+              "review:security-assessment:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "reported_facts": [],
+        "inferred_insights": [],
+        "needs": [
+          {
+            "description": "protection et cybersécurité",
+            "status": "confirmed",
+            "source_refs": [
+              "review:security-assessment:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "opportunities": [
+          {
+            "description": "Cyber Diagnostic — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « cybersécurité ».",
+            "status": "inferred",
+            "source_refs": [
+              "review:security-assessment:turn:1",
+              "catalog:cyber_diagnostic"
+            ],
+            "service_id": "cyber_diagnostic"
+          }
+        ],
+        "points_to_verify": [],
+        "recommended_next_actions": [
+          {
+            "description": "Faire valider les opportunités proposées par un responsable métier.",
+            "status": "inferred",
+            "source_refs": [
+              "review:security-assessment:turn:1",
+              "catalog:cyber_diagnostic"
+            ],
+            "service_id": null
+          }
+        ],
+        "catalog_version": "orange-business-rdc-global-2026-07-28"
+      },
+      "checklist": {
+        "facts_and_inferences_are_clear": false,
+        "opportunities_are_supported": false,
+        "limitations_are_visible": false,
+        "content_is_useful_for_target_role": false,
+        "next_actions_are_actionable": false,
+        "export_is_readable": false
+      },
+      "decision": {
+        "status": "pending",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      }
+    },
+    {
+      "sample_id": "security-assessment.business_twin",
+      "scenario_id": "security-assessment",
+      "report_type": "business_twin",
+      "report": {
+        "schema_version": "1.0",
+        "status": "final",
+        "company_summary": {
+          "name": "Services Horizon",
+          "sector": "services",
+          "size": "40",
+          "activities": [
+            "services professionnels"
+          ],
+          "locations": [
+            "Kinshasa"
+          ]
+        },
+        "current_situation": [
+          {
+            "description": "activité : services professionnels",
+            "status": "confirmed",
+            "source_refs": [
+              "review:security-assessment:turn:1"
+            ],
+            "service_id": null
+          },
+          {
+            "description": "localisation : Kinshasa",
+            "status": "confirmed",
+            "source_refs": [
+              "review:security-assessment:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "needs_and_pain_points": [
+          {
+            "description": "protection et cybersécurité",
+            "status": "confirmed",
+            "source_refs": [
+              "review:security-assessment:turn:1"
+            ],
+            "service_id": null
+          }
+        ],
+        "business_opportunities": [
+          {
+            "description": "Cyber Diagnostic — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « cybersécurité ».",
+            "status": "inferred",
+            "source_refs": [
+              "review:security-assessment:turn:1",
+              "catalog:cyber_diagnostic"
+            ],
+            "service_id": "cyber_diagnostic"
+          }
+        ],
+        "interesting_services": [
+          {
+            "description": "Cyber Diagnostic — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « cybersécurité ».",
+            "status": "inferred",
+            "source_refs": [
+              "review:security-assessment:turn:1",
+              "catalog:cyber_diagnostic"
+            ],
+            "service_id": "cyber_diagnostic"
+          }
+        ],
+        "risks_and_constraints": [],
+        "missing_information": [],
+        "recommended_next_actions": [],
+        "sources": [
+          "review:security-assessment:turn:1",
+          "catalog:cyber_diagnostic"
+        ],
+        "catalog_version": "orange-business-rdc-global-2026-07-28"
+      },
+      "checklist": {
+        "facts_and_inferences_are_clear": false,
+        "opportunities_are_supported": false,
+        "limitations_are_visible": false,
+        "content_is_useful_for_target_role": false,
+        "next_actions_are_actionable": false,
+        "export_is_readable": false
+      },
+      "decision": {
+        "status": "pending",
+        "reviewed_by": "",
+        "reviewed_on": null,
+        "notes": ""
+      }
+    }
+  ]
+}

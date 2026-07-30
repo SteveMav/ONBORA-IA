@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "name": {
+    "value": "École Lumière",
+    "status": "reported",
+    "source_refs": ["message:1"],
+    "confidence": 1.0,
+    "requires_confirmation": false
+  },
+  "sector": {
+    "value": "education",
+    "status": "reported",
+    "source_refs": ["message:1"],
+    "confidence": 1.0,
+    "requires_confirmation": false
+  },
+  "size": null,
+  "activities": [],
+  "locations": [],
+  "needs": [],
+  "constraints": [],
+  "missing_information": ["size", "needs"],
+  "conflicts": []
+}
+

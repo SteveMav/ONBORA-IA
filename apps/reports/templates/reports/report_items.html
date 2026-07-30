@@ -1,0 +1,10 @@
+{% if items %}
+<section>
+  <h2>{{ title }}</h2>
+  <ul>
+    {% for item in items %}
+      <li>{{ item.description }} <span class="status">({{ item.status.value }})</span></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}

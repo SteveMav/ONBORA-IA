@@ -1,0 +1,186 @@
+{
+  "$defs": {
+    "CompanyProfilePatch": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sector": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "size": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "activities": {
+          "items": {
+            "$ref": "#/$defs/Fact"
+          },
+          "maxItems": 20,
+          "title": "Activities",
+          "type": "array"
+        },
+        "locations": {
+          "items": {
+            "$ref": "#/$defs/Fact"
+          },
+          "maxItems": 10,
+          "title": "Locations",
+          "type": "array"
+        },
+        "needs": {
+          "items": {
+            "$ref": "#/$defs/Fact"
+          },
+          "maxItems": 20,
+          "title": "Needs",
+          "type": "array"
+        },
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Fact"
+          },
+          "maxItems": 20,
+          "title": "Constraints",
+          "type": "array"
+        }
+      },
+      "title": "CompanyProfilePatch",
+      "type": "object"
+    },
+    "Fact": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        },
+        "status": {
+          "$ref": "#/$defs/FactStatus"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "requires_confirmation": {
+          "default": false,
+          "title": "Requires Confirmation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "status",
+        "confidence"
+      ],
+      "title": "Fact",
+      "type": "object"
+    },
+    "FactStatus": {
+      "enum": [
+        "reported",
+        "inferred",
+        "confirmed",
+        "unknown"
+      ],
+      "title": "FactStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assistant_message": {
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Assistant Message",
+      "type": "string"
+    },
+    "profile_patch": {
+      "$ref": "#/$defs/CompanyProfilePatch"
+    },
+    "ready_for_analysis": {
+      "default": false,
+      "title": "Ready For Analysis",
+      "type": "boolean"
+    },
+    "readiness_reason": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Readiness Reason",
+      "type": "string"
+    }
+  },
+  "required": [
+    "assistant_message"
+  ],
+  "title": "QualificationTurnOutput",
+  "type": "object"
+}

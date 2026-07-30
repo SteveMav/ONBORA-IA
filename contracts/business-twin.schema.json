@@ -1,0 +1,212 @@
+{
+  "$defs": {
+    "FactStatus": {
+      "enum": [
+        "reported",
+        "inferred",
+        "confirmed",
+        "unknown"
+      ],
+      "title": "FactStatus",
+      "type": "string"
+    },
+    "ReportItem": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/FactStatus"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "service_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_]{2,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Service Id"
+        }
+      },
+      "required": [
+        "description",
+        "status"
+      ],
+      "title": "ReportItem",
+      "type": "object"
+    },
+    "ReportStatus": {
+      "enum": [
+        "final",
+        "non_final"
+      ],
+      "title": "ReportStatus",
+      "type": "string"
+    },
+    "TwinCompanySummary": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "sector": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sector"
+        },
+        "size": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Size"
+        },
+        "activities": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "title": "Activities",
+          "type": "array"
+        },
+        "locations": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Locations",
+          "type": "array"
+        }
+      },
+      "title": "TwinCompanySummary",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/ReportStatus"
+    },
+    "company_summary": {
+      "$ref": "#/$defs/TwinCompanySummary"
+    },
+    "current_situation": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 100,
+      "title": "Current Situation",
+      "type": "array"
+    },
+    "needs_and_pain_points": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 100,
+      "title": "Needs And Pain Points",
+      "type": "array"
+    },
+    "business_opportunities": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 100,
+      "title": "Business Opportunities",
+      "type": "array"
+    },
+    "interesting_services": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 50,
+      "title": "Interesting Services",
+      "type": "array"
+    },
+    "risks_and_constraints": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 100,
+      "title": "Risks And Constraints",
+      "type": "array"
+    },
+    "missing_information": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 50,
+      "title": "Missing Information",
+      "type": "array"
+    },
+    "recommended_next_actions": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 50,
+      "title": "Recommended Next Actions",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 200,
+      "title": "Sources",
+      "type": "array"
+    },
+    "catalog_version": {
+      "title": "Catalog Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "company_summary",
+    "catalog_version"
+  ],
+  "title": "BusinessTwin",
+  "type": "object"
+}

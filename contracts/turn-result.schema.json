@@ -1,0 +1,486 @@
+{
+  "$defs": {
+    "CompanyProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sector": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "size": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "activities": {
+          "items": {
+            "$ref": "#/$defs/Fact"
+          },
+          "maxItems": 50,
+          "title": "Activities",
+          "type": "array"
+        },
+        "locations": {
+          "items": {
+            "$ref": "#/$defs/Fact"
+          },
+          "maxItems": 20,
+          "title": "Locations",
+          "type": "array"
+        },
+        "needs": {
+          "items": {
+            "$ref": "#/$defs/Fact"
+          },
+          "maxItems": 50,
+          "title": "Needs",
+          "type": "array"
+        },
+        "constraints": {
+          "items": {
+            "$ref": "#/$defs/Fact"
+          },
+          "maxItems": 50,
+          "title": "Constraints",
+          "type": "array"
+        },
+        "missing_information": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "title": "Missing Information",
+          "type": "array"
+        },
+        "conflicts": {
+          "items": {
+            "$ref": "#/$defs/FactConflict"
+          },
+          "maxItems": 50,
+          "title": "Conflicts",
+          "type": "array"
+        }
+      },
+      "title": "CompanyProfile",
+      "type": "object"
+    },
+    "Fact": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        },
+        "status": {
+          "$ref": "#/$defs/FactStatus"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "requires_confirmation": {
+          "default": false,
+          "title": "Requires Confirmation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "status",
+        "confidence"
+      ],
+      "title": "Fact",
+      "type": "object"
+    },
+    "FactConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "field_name": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Field Name",
+          "type": "string"
+        },
+        "existing": {
+          "$ref": "#/$defs/Fact"
+        },
+        "incoming": {
+          "$ref": "#/$defs/Fact"
+        },
+        "resolution_required": {
+          "default": true,
+          "title": "Resolution Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "field_name",
+        "existing",
+        "incoming"
+      ],
+      "title": "FactConflict",
+      "type": "object"
+    },
+    "FactStatus": {
+      "enum": [
+        "reported",
+        "inferred",
+        "confirmed",
+        "unknown"
+      ],
+      "title": "FactStatus",
+      "type": "string"
+    },
+    "RecommendationItem": {
+      "additionalProperties": false,
+      "properties": {
+        "service_id": {
+          "pattern": "^[a-z][a-z0-9_]{2,63}$",
+          "title": "Service Id",
+          "type": "string"
+        },
+        "service_name": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Service Name",
+          "type": "string"
+        },
+        "service_category": {
+          "default": "",
+          "maxLength": 100,
+          "title": "Service Category",
+          "type": "string"
+        },
+        "service_description": {
+          "default": "",
+          "maxLength": 2000,
+          "title": "Service Description",
+          "type": "string"
+        },
+        "customer_explanation": {
+          "default": "",
+          "maxLength": 2000,
+          "title": "Customer Explanation",
+          "type": "string"
+        },
+        "benefits": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Benefits",
+          "type": "array"
+        },
+        "prerequisites": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Prerequisites",
+          "type": "array"
+        },
+        "commercial_terms": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Commercial Terms",
+          "type": "array"
+        },
+        "variant_names": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Variant Names",
+          "type": "array"
+        },
+        "source_url": {
+          "default": "",
+          "maxLength": 500,
+          "pattern": "^$|^https://",
+          "title": "Source Url",
+          "type": "string"
+        },
+        "provider_name": {
+          "default": "Orange Business",
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Name",
+          "type": "string"
+        },
+        "portfolio_scope": {
+          "default": "rdc",
+          "enum": [
+            "rdc",
+            "international"
+          ],
+          "title": "Portfolio Scope",
+          "type": "string"
+        },
+        "portfolio_level": {
+          "default": "local_offer",
+          "enum": [
+            "local_offer",
+            "global_solution_family"
+          ],
+          "title": "Portfolio Level",
+          "type": "string"
+        },
+        "rdc_availability": {
+          "default": "published_local",
+          "enum": [
+            "published_local",
+            "to_confirm"
+          ],
+          "title": "Rdc Availability",
+          "type": "string"
+        },
+        "availability_note": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "Availability Note",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Score",
+          "type": "integer"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "missing_information": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Missing Information",
+          "type": "array"
+        },
+        "requires_human_validation": {
+          "default": true,
+          "title": "Requires Human Validation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "service_id",
+        "service_name",
+        "score",
+        "reason_codes"
+      ],
+      "title": "RecommendationItem",
+      "type": "object"
+    },
+    "RecommendationResult": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "catalog_version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Catalog Version",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RecommendationStatus"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/$defs/RecommendationItem"
+          },
+          "maxItems": 50,
+          "title": "Items",
+          "type": "array"
+        },
+        "rejected_service_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "title": "Rejected Service Ids",
+          "type": "array"
+        },
+        "missing_information": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "title": "Missing Information",
+          "type": "array"
+        }
+      },
+      "required": [
+        "catalog_version",
+        "status"
+      ],
+      "title": "RecommendationResult",
+      "type": "object"
+    },
+    "RecommendationStatus": {
+      "enum": [
+        "recommended",
+        "needs_information",
+        "no_match"
+      ],
+      "title": "RecommendationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "conversation_id": {
+      "title": "Conversation Id",
+      "type": "integer"
+    },
+    "message_id": {
+      "title": "Message Id",
+      "type": "integer"
+    },
+    "profile_snapshot_id": {
+      "title": "Profile Snapshot Id",
+      "type": "integer"
+    },
+    "profile": {
+      "$ref": "#/$defs/CompanyProfile"
+    },
+    "recommendations": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RecommendationResult"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "assistant_message": {
+      "default": "",
+      "maxLength": 2000,
+      "title": "Assistant Message",
+      "type": "string"
+    },
+    "ready_for_analysis": {
+      "default": false,
+      "title": "Ready For Analysis",
+      "type": "boolean"
+    },
+    "readiness_reason": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Readiness Reason",
+      "type": "string"
+    },
+    "next_questions": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Next Questions",
+      "type": "array"
+    },
+    "replayed": {
+      "default": false,
+      "title": "Replayed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "message_id",
+    "profile_snapshot_id",
+    "profile"
+  ],
+  "title": "TurnResult",
+  "type": "object"
+}

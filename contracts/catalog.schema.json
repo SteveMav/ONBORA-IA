@@ -1,0 +1,296 @@
+{
+  "$defs": {
+    "MatchRules": {
+      "additionalProperties": false,
+      "properties": {
+        "need_keywords": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "minItems": 1,
+          "title": "Need Keywords",
+          "type": "array"
+        },
+        "sectors": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Sectors",
+          "type": "array"
+        },
+        "excluded_sectors": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Excluded Sectors",
+          "type": "array"
+        },
+        "required_profile_fields": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Required Profile Fields",
+          "type": "array"
+        }
+      },
+      "required": [
+        "need_keywords"
+      ],
+      "title": "MatchRules",
+      "type": "object"
+    },
+    "OfferVariant": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "details": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Details",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "OfferVariant",
+      "type": "object"
+    },
+    "ServiceDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "service_id": {
+          "pattern": "^[a-z][a-z0-9_]{2,63}$",
+          "title": "Service Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "category": {
+          "default": "Autres",
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Category",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "allowed_benefits": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Allowed Benefits",
+          "type": "array"
+        },
+        "target_customers": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Target Customers",
+          "type": "array"
+        },
+        "variants": {
+          "items": {
+            "$ref": "#/$defs/OfferVariant"
+          },
+          "maxItems": 30,
+          "title": "Variants",
+          "type": "array"
+        },
+        "commercial_terms": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Commercial Terms",
+          "type": "array"
+        },
+        "prerequisites": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Prerequisites",
+          "type": "array"
+        },
+        "exclusions": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Exclusions",
+          "type": "array"
+        },
+        "source_url": {
+          "default": "",
+          "maxLength": 500,
+          "pattern": "^$|^https://",
+          "title": "Source Url",
+          "type": "string"
+        },
+        "source_checked_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Checked On"
+        },
+        "source_status": {
+          "default": "official_page",
+          "enum": [
+            "official_page",
+            "official_listing",
+            "official_secondary"
+          ],
+          "title": "Source Status",
+          "type": "string"
+        },
+        "provider_name": {
+          "default": "Orange Business",
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Name",
+          "type": "string"
+        },
+        "portfolio_scope": {
+          "default": "rdc",
+          "enum": [
+            "rdc",
+            "international"
+          ],
+          "title": "Portfolio Scope",
+          "type": "string"
+        },
+        "portfolio_level": {
+          "default": "local_offer",
+          "enum": [
+            "local_offer",
+            "global_solution_family"
+          ],
+          "title": "Portfolio Level",
+          "type": "string"
+        },
+        "rdc_availability": {
+          "default": "published_local",
+          "enum": [
+            "published_local",
+            "to_confirm"
+          ],
+          "title": "Rdc Availability",
+          "type": "string"
+        },
+        "availability_note": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "Availability Note",
+          "type": "string"
+        },
+        "match": {
+          "$ref": "#/$defs/MatchRules"
+        }
+      },
+      "required": [
+        "service_id",
+        "name",
+        "description",
+        "allowed_benefits",
+        "match"
+      ],
+      "title": "ServiceDefinition",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "catalog_version": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Catalog Version",
+      "type": "string"
+    },
+    "status": {
+      "default": "draft",
+      "enum": [
+        "draft",
+        "approved"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "source_name": {
+      "default": "",
+      "maxLength": 160,
+      "title": "Source Name",
+      "type": "string"
+    },
+    "source_url": {
+      "default": "",
+      "maxLength": 500,
+      "pattern": "^$|^https://",
+      "title": "Source Url",
+      "type": "string"
+    },
+    "source_checked_on": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Checked On"
+    },
+    "services": {
+      "items": {
+        "$ref": "#/$defs/ServiceDefinition"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Services",
+      "type": "array"
+    }
+  },
+  "required": [
+    "catalog_version",
+    "services"
+  ],
+  "title": "CatalogDefinition",
+  "type": "object"
+}

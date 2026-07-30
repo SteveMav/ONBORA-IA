@@ -1,0 +1,148 @@
+{
+  "$defs": {
+    "FactStatus": {
+      "enum": [
+        "reported",
+        "inferred",
+        "confirmed",
+        "unknown"
+      ],
+      "title": "FactStatus",
+      "type": "string"
+    },
+    "ReportItem": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/FactStatus"
+        },
+        "source_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "service_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_]{2,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Service Id"
+        }
+      },
+      "required": [
+        "description",
+        "status"
+      ],
+      "title": "ReportItem",
+      "type": "object"
+    },
+    "ReportStatus": {
+      "enum": [
+        "final",
+        "non_final"
+      ],
+      "title": "ReportStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/ReportStatus"
+    },
+    "executive_summary": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Executive Summary",
+      "type": "string"
+    },
+    "confirmed_facts": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 100,
+      "title": "Confirmed Facts",
+      "type": "array"
+    },
+    "reported_facts": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 100,
+      "title": "Reported Facts",
+      "type": "array"
+    },
+    "inferred_insights": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 100,
+      "title": "Inferred Insights",
+      "type": "array"
+    },
+    "needs": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 100,
+      "title": "Needs",
+      "type": "array"
+    },
+    "opportunities": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 100,
+      "title": "Opportunities",
+      "type": "array"
+    },
+    "points_to_verify": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 100,
+      "title": "Points To Verify",
+      "type": "array"
+    },
+    "recommended_next_actions": {
+      "items": {
+        "$ref": "#/$defs/ReportItem"
+      },
+      "maxItems": 50,
+      "title": "Recommended Next Actions",
+      "type": "array"
+    },
+    "catalog_version": {
+      "title": "Catalog Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "status",
+    "executive_summary",
+    "catalog_version"
+  ],
+  "title": "KAMReport",
+  "type": "object"
+}

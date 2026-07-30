@@ -1,0 +1,218 @@
+{
+  "$defs": {
+    "RecommendationItem": {
+      "additionalProperties": false,
+      "properties": {
+        "service_id": {
+          "pattern": "^[a-z][a-z0-9_]{2,63}$",
+          "title": "Service Id",
+          "type": "string"
+        },
+        "service_name": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Service Name",
+          "type": "string"
+        },
+        "service_category": {
+          "default": "",
+          "maxLength": 100,
+          "title": "Service Category",
+          "type": "string"
+        },
+        "service_description": {
+          "default": "",
+          "maxLength": 2000,
+          "title": "Service Description",
+          "type": "string"
+        },
+        "customer_explanation": {
+          "default": "",
+          "maxLength": 2000,
+          "title": "Customer Explanation",
+          "type": "string"
+        },
+        "benefits": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Benefits",
+          "type": "array"
+        },
+        "prerequisites": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Prerequisites",
+          "type": "array"
+        },
+        "commercial_terms": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Commercial Terms",
+          "type": "array"
+        },
+        "variant_names": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Variant Names",
+          "type": "array"
+        },
+        "source_url": {
+          "default": "",
+          "maxLength": 500,
+          "pattern": "^$|^https://",
+          "title": "Source Url",
+          "type": "string"
+        },
+        "provider_name": {
+          "default": "Orange Business",
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "Provider Name",
+          "type": "string"
+        },
+        "portfolio_scope": {
+          "default": "rdc",
+          "enum": [
+            "rdc",
+            "international"
+          ],
+          "title": "Portfolio Scope",
+          "type": "string"
+        },
+        "portfolio_level": {
+          "default": "local_offer",
+          "enum": [
+            "local_offer",
+            "global_solution_family"
+          ],
+          "title": "Portfolio Level",
+          "type": "string"
+        },
+        "rdc_availability": {
+          "default": "published_local",
+          "enum": [
+            "published_local",
+            "to_confirm"
+          ],
+          "title": "Rdc Availability",
+          "type": "string"
+        },
+        "availability_note": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "Availability Note",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Score",
+          "type": "integer"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "missing_information": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Missing Information",
+          "type": "array"
+        },
+        "requires_human_validation": {
+          "default": true,
+          "title": "Requires Human Validation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "service_id",
+        "service_name",
+        "score",
+        "reason_codes"
+      ],
+      "title": "RecommendationItem",
+      "type": "object"
+    },
+    "RecommendationStatus": {
+      "enum": [
+        "recommended",
+        "needs_information",
+        "no_match"
+      ],
+      "title": "RecommendationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "catalog_version": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Catalog Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/RecommendationStatus"
+    },
+    "items": {
+      "items": {
+        "$ref": "#/$defs/RecommendationItem"
+      },
+      "maxItems": 50,
+      "title": "Items",
+      "type": "array"
+    },
+    "rejected_service_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 50,
+      "title": "Rejected Service Ids",
+      "type": "array"
+    },
+    "missing_information": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 50,
+      "title": "Missing Information",
+      "type": "array"
+    }
+  },
+  "required": [
+    "catalog_version",
+    "status"
+  ],
+  "title": "RecommendationResult",
+  "type": "object"
+}
