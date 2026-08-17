@@ -19,7 +19,7 @@ def test_home_renders_empty_workbench() -> None:
     assert "Tester l’intelligence métier" in response.content.decode()
 
 
-def test_local_fake_flow_builds_profile_and_both_reports(monkeypatch) -> None:
+def test_local_fake_flow_builds_company_profile_and_kam_report(monkeypatch) -> None:
     monkeypatch.setenv("ONBORA_AI_PROVIDER", "fake")
     client = Client()
 
@@ -54,7 +54,7 @@ def test_local_fake_flow_builds_profile_and_both_reports(monkeypatch) -> None:
     assert conversation.recommendation_records.count() == 0
 
     locked_report = client.post(
-        reverse("workbench:generate_report", args=[conversation.pk, "business_twin"])
+        reverse("workbench:generate_report", args=[conversation.pk, "company_profile"])
     )
     assert locked_report.status_code == 400
     assert "Lancez d’abord l’analyse" in locked_report.content.decode()
@@ -103,7 +103,7 @@ def test_local_fake_flow_builds_profile_and_both_reports(monkeypatch) -> None:
     assert latest_profile["name"]["status"] == "confirmed"
     assert latest_profile["constraints"][0]["value"] == "budget maîtrisé"
 
-    for report_type in ("business_twin", "kam"):
+    for report_type in ("company_profile", "kam"):
         response = client.post(
             reverse("workbench:generate_report", args=[conversation.pk, report_type])
         )
@@ -113,38 +113,42 @@ def test_local_fake_flow_builds_profile_and_both_reports(monkeypatch) -> None:
     content = page.content.decode()
     assert page.status_code == 200
     assert "École Lumière" in content
-    assert "Business Twin" in content
+    assert "Profil d’entreprise" in content
+    assert "Business Twin" not in content
     assert "Confirmée" in content
     assert "Synthèse KAM" in content
     assert GeneratedReport.objects.filter(conversation=conversation).count() == 2
     assert content.count("HTML · imprimer") == 2
 
-    twin_report = GeneratedReport.objects.get(
+    company_profile_report = GeneratedReport.objects.get(
         conversation=conversation,
-        report_type=GeneratedReport.ReportType.BUSINESS_TWIN,
+        report_type=GeneratedReport.ReportType.COMPANY_PROFILE,
     )
     json_response = client.get(
         reverse(
             "workbench:export_report",
-            args=[conversation.pk, "business_twin", twin_report.pk, "json"],
+            args=[conversation.pk, "company_profile", company_profile_report.pk, "json"],
         )
     )
     assert json_response.status_code == 200
     assert json_response["Content-Type"] == "application/json; charset=utf-8"
     assert json_response["Content-Disposition"].startswith("attachment;")
-    assert json.loads(json_response.content) == twin_report.data
+    assert json.loads(json_response.content) == company_profile_report.data
+    assert "interesting_services" not in company_profile_report.data
+    assert "recommended_next_actions" not in company_profile_report.data
 
     html_response = client.get(
         reverse(
             "workbench:export_report",
-            args=[conversation.pk, "business_twin", twin_report.pk, "html"],
+            args=[conversation.pk, "company_profile", company_profile_report.pk, "html"],
         )
     )
     assert html_response.status_code == 200
     assert html_response["Content-Type"] == "text/html; charset=utf-8"
     assert html_response["Content-Disposition"].startswith("inline;")
     assert html_response["Cache-Control"] == "private, no-store"
-    assert "Business Twin" in html_response.content.decode()
+    assert "Profil d’entreprise" in html_response.content.decode()
+    assert "Business Twin" not in html_response.content.decode()
     assert "@media print" in html_response.content.decode()
 
     kam_report = GeneratedReport.objects.get(
@@ -173,7 +177,7 @@ def test_local_fake_flow_builds_profile_and_both_reports(monkeypatch) -> None:
     cross_conversation = client.get(
         reverse(
             "workbench:export_report",
-            args=[other_conversation.pk, "business_twin", twin_report.pk, "json"],
+            args=[other_conversation.pk, "company_profile", company_profile_report.pk, "json"],
         )
     )
     assert cross_conversation.status_code == 404
@@ -181,7 +185,7 @@ def test_local_fake_flow_builds_profile_and_both_reports(monkeypatch) -> None:
     wrong_type = client.get(
         reverse(
             "workbench:export_report",
-            args=[conversation.pk, "kam", twin_report.pk, "json"],
+            args=[conversation.pk, "kam", company_profile_report.pk, "json"],
         )
     )
     assert wrong_type.status_code == 404
@@ -189,7 +193,7 @@ def test_local_fake_flow_builds_profile_and_both_reports(monkeypatch) -> None:
     invalid_format = client.get(
         reverse(
             "workbench:export_report",
-            args=[conversation.pk, "business_twin", twin_report.pk, "pdf"],
+            args=[conversation.pk, "company_profile", company_profile_report.pk, "pdf"],
         )
     )
     assert invalid_format.status_code == 400

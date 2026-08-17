@@ -1,6 +1,6 @@
 # État d’implémentation — Onbora AI V1
 
-Date de vérification : 29 juillet 2026.
+Date de vérification : 17 août 2026.
 
 | Ticket | État technique | Preuve principale |
 |---|---|---|
@@ -14,15 +14,15 @@ Date de vérification : 29 juillet 2026.
 | `QLF-002` | Implémenté | Fusion, provenance, confirmation, conflits et informations manquantes |
 | `LLM-002` | Implémenté et vérifié sur l’API réelle avec données fictives | Gemini multi-tour, réponse + patch structurés, historique borné, timeout et deux tentatives maximum |
 | `RPT-001` | Implémenté ; revue KAM externe en attente | Rapport KAM validé et persistance idempotente |
-| `RPT-002` | Implémenté ; revue métier externe en attente | Business Twin descriptif validé et persistance idempotente |
+| `RPT-002` | Implémenté ; revue métier externe en attente | Profil d’entreprise descriptif validé, sans recommandations, et persistance idempotente |
 | `RPT-003` | Implémenté pour HTML/JSON ; PDF serveur différé | Exports autonomes, contrôle d’appartenance, en-têtes de sécurité et HTML imprimable en PDF |
 | `INT-001` | Implémenté | `ConversationService` et DTO indépendants de l’ORM |
 | `EVL-001` | Implémenté | 32 scénarios synthétiques, dont cloud et cyber internationales, et évaluateurs déterministes |
 | `EVL-002` | Implémenté | 15 conversations multi-tours, corrections, conflits, cas sans correspondance et injections |
 | `PREP-001` | Implémenté ; validation Orange/métier requise | Gabarit de collecte, validateur, checklist et publication réservée aux catalogues approuvés |
 | `UI-001` | Implémenté | Chat guidé, signal de complétude LLM, analyse explicite, réponse client avec offres Orange, bénéfices et prérequis, fiche confirmable, rapports verrouillés, responsive et CSRF |
-| `QA-001` | Implémenté | 72 tests Pytest et commande `run_ai_eval` |
-| `GOV-001` | Workflow implémenté ; décisions humaines en attente | 41 fiches de revue catalogue, 5 paires KAM/Twin, validateurs bloquants et identité/date obligatoires |
+| `QA-001` | Implémenté | 104 tests Pytest et commande `run_ai_eval` |
+| `GOV-001` | Workflow implémenté ; décisions humaines en attente | 41 fiches de revue catalogue, 5 paires KAM/profil, validateurs bloquants et identité/date obligatoires |
 | `EVL-003` | Implémenté et exécuté sur Gemini réel | Corpus Gemini fondé sur le texte, métriques champs/services/latence/tokens, garde réseau explicite et nettoyage des conversations synthétiques |
 
 ## Vérifications exécutées
@@ -35,7 +35,7 @@ python manage.py run_ai_eval
 python manage.py demo_ai_v1
 ```
 
-Résultats : vérification Django réussie, aucune migration manquante, 72 tests et 32 scénarios
+Résultats : vérification Django réussie, aucune migration manquante, 104 tests et 32 scénarios
 synthétiques réussis, parcours complet vérifié dans le navigateur sans erreur
 console et qualification Gemini réelle réussie avec des données fictives jusqu’au lancement
 explicite de l’analyse.
@@ -48,7 +48,7 @@ tours. Le rapport détaillé est écrit dans `output/evals/gemini-full-final-202
 ## Validations externes restantes
 
 - Faire valider les 28 offres RDC et les 13 familles internationales, leurs variantes, règles de matching et conditions par le responsable métier et les équipes Orange concernées avant de passer le catalogue à `approved`.
-- Faire relire plusieurs rapports KAM et Business Twin par leur utilisateur cible.
+- Faire relire plusieurs rapports KAM et profils d’entreprise par leur utilisateur cible.
 - Valider la politique de données du fournisseur avant toute utilisation de données client réelles.
 
 Les décisions doivent être enregistrées dans `reviews/`. Les dossiers livrés restent

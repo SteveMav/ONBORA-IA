@@ -6,7 +6,7 @@ Source principale : [`onbora-ai-mvp-architecture.md`](./onbora-ai-mvp-architectu
 
 - **Objectif :** livrer le module IA et les rapports, pas la plateforme entière.
 - **Stack :** Django, SQLite et Python.
-- **Résultat V1 :** une conversation produit un profil d’entreprise sourcé, des opportunités explicables, un rapport KAM et un Business Twin descriptif.
+- **Résultat V1 :** une conversation produit un profil d’entreprise sourcé et exportable, des opportunités explicables et un rapport KAM.
 - **Interface :** services Python/Django intégrables par le reste de l’équipe.
 - **Données :** catalogue léger en JSON et scénarios synthétiques.
 - **Hors périmètre :** React, PostgreSQL, pgvector, workers, cloud, multi-tenant et exploitation avancée.
@@ -19,7 +19,7 @@ La V1 IA est terminée lorsqu’un développeur peut :
 1. Créer une conversation de test et lui envoyer plusieurs messages.
 2. Obtenir un profil d’entreprise structuré avec sources, incertitudes et informations manquantes.
 3. Calculer des opportunités à partir du catalogue sans laisser le LLM choisir librement les services.
-4. Générer un rapport KAM et un Business Twin validés par schéma.
+4. Générer un rapport KAM et un profil d’entreprise validés par schéma.
 5. Rejouer un corpus synthétique et détecter une extraction, recommandation ou affirmation invalide.
 6. Appeler le pipeline depuis un service Python/Django documenté.
 
@@ -28,7 +28,7 @@ La V1 IA est terminée lorsqu’un développeur peut :
 - Une sortie IA invalide n’est jamais appliquée ni enregistrée comme résultat final.
 - Un fait inféré ne remplace jamais un fait rapporté ou confirmé.
 - Un service absent du catalogue ne peut pas devenir une recommandation.
-- Le rapport KAM et le Business Twin utilisent le même profil et les mêmes opportunités.
+- Le rapport KAM et le profil exportable utilisent les mêmes faits validés; seul le rapport KAM contient les opportunités.
 - L’échec du fournisseur conserve le dernier profil valide.
 - Les clés, tokens et secrets ne sont jamais stockés dans SQLite ou les logs.
 - Les données réelles restent hors des fixtures et démonstrations initiales.
@@ -39,7 +39,7 @@ La V1 IA est terminée lorsqu’un développeur peut :
 |---|---|---|---|
 | DEC-001 | Backend et persistance | Django + SQLite | Bootstrap |
 | DEC-002 | Catalogue | 5–8 services en JSON | Matching final |
-| DEC-003 | Business Twin | Description structurée de l’entreprise et de ses opportunités | Contrats rapports |
+| DEC-003 | Profil d’entreprise | Description structurée de l’entreprise, sans recommandation ni prédiction | Contrats rapports |
 | DEC-004 | Fournisseur | Fake par défaut, Gemini via `google-genai` pour les essais réels | Pas le cœur déterministe |
 | DEC-005 | Langue | Français pour les contenus, anglais pour les identifiants techniques | Corpus final |
 | DEC-006 | Intégration équipe | Services Python/Django avant une API HTTP dédiée | Intégration finale |
@@ -51,7 +51,7 @@ La V1 IA est terminée lorsqu’un développeur peut :
 | P0 — Socle | Projet Django exécutable avec SQLite et tests | `FND-001`, `CNT-001`, `DAT-001` | Migrations et tests passent depuis un clone propre |
 | P1 — Cœur déterministe | Catalogue et opportunités sans LLM | `CAT-001`, `REC-001` | Les scénarios métier déterministes passent |
 | P2 — Qualification IA | Conversation → profil validé | `LLM-001`, `QLF-001`, `QLF-002` | Démo avec fake, provenance et conflits |
-| P3 — Rapports | KAM et Business Twin | `RPT-001`, `RPT-002` | JSON valides et revue métier d’exemples |
+| P3 — Rapports | KAM et profil d’entreprise | `RPT-001`, `RPT-002` | JSON valides et revue métier d’exemples |
 | P4 — Intégration et qualité | Interface d’équipe et gate synthétique | `INT-001`, `EVL-001`, `QA-001` | Pipeline complet reproductible |
 | P5 — Modèle réel | Adaptateur réel évalué | `LLM-002` | Qualité/coût/erreurs mesurés sur le même corpus |
 
@@ -62,7 +62,7 @@ La V1 IA est terminée lorsqu’un développeur peut :
 | E1 — Fondations | Django, SQLite, contrats et migrations | `FND-001`, `CNT-001`, `DAT-001` |
 | E2 — Catalogue et opportunités | Décisions métier explicables sans LLM | `CAT-001`, `REC-001` |
 | E3 — Qualification IA | Profil d’entreprise sourcé et révisable | `LLM-001`, `LLM-002`, `QLF-001`, `QLF-002` |
-| E4 — Rapports | KAM et Business Twin descriptif | `RPT-001`, `RPT-002` |
+| E4 — Rapports | KAM et profil d’entreprise descriptif | `RPT-001`, `RPT-002` |
 | E5 — Intégration et validation | Services appelables et régressions détectées | `INT-001`, `EVL-001`, `QA-001` |
 
 ## 4. Definition of Done globale
@@ -97,11 +97,11 @@ Chaque ticket est terminé lorsque :
 - **Objectif :** stabiliser les entrées et sorties du pipeline.
 - **Type / Priorité / Taille / Owner :** `feature` / P0 / M / Développeur IA.
 - **Dépendances :** `FND-001`.
-- **Description :** définir `Fact`, `CompanyProfile`, `CompanyProfilePatch`, `RecommendationResult`, `KAMReport` et `BusinessTwin` avec validation stricte.
+- **Description :** définir `Fact`, `CompanyProfile`, `CompanyProfilePatch`, `RecommendationResult`, `KAMReport` et `CompanyProfileReport` avec validation stricte.
 - **Critères d’acceptation :** chaque objet porte `schema_version`; les statuts et scores invalides sont refusés; les exemples de l’architecture valident.
 - **Notes techniques :** privilégier Pydantic pour les contrats IA et garder les DTO indépendants de l’ORM Django.
 - **Tests attendus :** exemples valides/invalides, bornes, champs inconnus et payload vide.
-- **Risques :** rendre le Business Twin trop abstrait avant les premiers retours.
+- **Risques :** dupliquer ou enrichir inutilement le profil avant les premiers retours.
 - **Definition of Done :** DoD globale plus fixtures JSON lisibles.
 
 #### DAT-001 — Persister les essais dans SQLite
@@ -206,16 +206,16 @@ Chaque ticket est terminé lorsque :
 - **Risques :** formulation élégante masquant l’incertitude.
 - **Definition of Done :** DoD globale plus revue d’au moins trois exemples.
 
-#### RPT-002 — Générer le Business Twin descriptif
+#### RPT-002 — Générer le profil d’entreprise descriptif
 
-- **Objectif :** décrire l’entreprise et ce qui peut être intéressant pour elle.
+- **Objectif :** décrire l’entreprise à partir des faits collectés et confirmés.
 - **Type / Priorité / Taille / Owner :** `feature` / P0 / M / Développeur IA.
-- **Dépendances :** `QLF-002`, `REC-001`, `LLM-001`.
-- **Description :** produire `company_summary`, `current_situation`, `needs_and_pain_points`, `business_opportunities`, `interesting_services`, `risks_and_constraints`, `missing_information` et `recommended_next_actions`.
-- **Critères d’acceptation :** aucun service n’apparaît hors du résultat déterministe; les données absentes restent visibles; chaque section respecte les statuts et sources.
-- **Notes techniques :** même état d’entrée que le rapport KAM; aucune logique de recommandation parallèle.
-- **Tests attendus :** snapshots JSON, données partielles, contradictions, `no_match` et idempotence.
-- **Risques :** élargissement progressif vers une simulation non demandée.
+- **Dépendances :** `QLF-002`, `LLM-001`.
+- **Description :** produire `description`, `company_summary`, `needs`, `constraints`, `missing_information` et `sources`.
+- **Critères d’acceptation :** aucune offre, recommandation ou prochaine action n’apparaît dans le profil; les données absentes restent visibles; chaque fait conserve son statut et ses sources.
+- **Notes techniques :** le rapport KAM porte seul les opportunités et les actions commerciales.
+- **Tests attendus :** snapshots JSON, données partielles, contradictions et idempotence.
+- **Risques :** réintroduire progressivement des recommandations dans un artefact uniquement descriptif.
 - **Definition of Done :** DoD globale plus revue métier d’au moins trois exemples.
 
 ### E5 — Intégration et validation
@@ -288,7 +288,7 @@ Travail parallélisable :
 | TEST-MATCHING | Recommandé/interdit/manquant/no_match | `REC-001` | Bloquant |
 | TEST-PROVIDER | Timeout, erreur, JSON malformé | `LLM-001`, `LLM-002` | Fake obligatoire |
 | TEST-PROFILE | Extraction, fusion, sources et conflits | `QLF-001`, `QLF-002` | Bloquant |
-| TEST-REPORTS | KAM/Twin, incertitude et services autorisés | `RPT-001`, `RPT-002` | Bloquant |
+| TEST-REPORTS | KAM/profil, incertitude et séparation des recommandations | `RPT-001`, `RPT-002` | Bloquant |
 | TEST-INTEGRATION | Service Django, retry et rollback | `INT-001` | Bloquant livraison |
 | TEST-EVALS | Corpus synthétique complet | `EVL-001`, `QA-001` | Gate V1 |
 
@@ -300,7 +300,7 @@ Travail parallélisable :
 | OQ-002 | Quels sont les 5–8 services réels ? | Fixtures temporaires clairement marquées | Validation de `CAT-001` |
 | OQ-003 | Qui valide les rapports ? | Un KAM ou responsable métier | Gate final rapports |
 | OQ-004 | L’équipe appelle-t-elle Python ou HTTP ? | Service Python/Django | Enveloppe d’intégration seulement |
-| OQ-005 | Quelles sections du Twin sont réellement utiles ? | Contrat minimal de l’architecture | Stabilisation après première revue |
+| OQ-005 | Quelles sections du profil sont réellement utiles ? | Description, identité, besoins, contraintes, manques et sources | Stabilisation après première revue |
 
 ## 9. Handoff for Development
 

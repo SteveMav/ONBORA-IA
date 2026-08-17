@@ -8,7 +8,7 @@ from apps.reports.review import validate_report_review_package
 
 
 class Command(BaseCommand):
-    help = "Valide un paquet de revue KAM/Business Twin."
+    help = "Valide un paquet de revue des rapports KAM et profils d’entreprise."
 
     def add_arguments(self, parser) -> None:
         parser.add_argument("review_file", type=Path)

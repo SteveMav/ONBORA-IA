@@ -161,11 +161,11 @@ def evaluate_case(case: dict[str, Any], catalog: CatalogDefinition) -> Evaluatio
 
     builder = ReportBuilder(catalog)
     kam = builder.build_kam(profile, recommendations).report
-    twin = builder.build_business_twin(profile, recommendations).report
+    builder.build_company_profile(profile)
     allowed = catalog.allowed_service_ids
     report_service_ids = {
         item.service_id
-        for item in [*kam.opportunities, *twin.interesting_services]
+        for item in kam.opportunities
         if item.service_id
     }
     unknown = sorted(report_service_ids - allowed)

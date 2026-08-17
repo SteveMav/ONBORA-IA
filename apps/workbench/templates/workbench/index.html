@@ -166,7 +166,7 @@
         <ul class="future-outputs">
           <li>Une fiche entreprise à relire et corriger</li>
           <li>Les offres Orange adaptées au problème exprimé</li>
-          <li>Les rapports Business Twin et KAM après confirmation</li>
+          <li>Le profil d’entreprise et le rapport KAM après confirmation</li>
         </ul>
       </section>
       {% else %}
@@ -261,33 +261,32 @@
       <section class="insight-section deliverables">
         <div class="section-heading compact"><div><p class="eyebrow">Livrables</p><h2>Rapports</h2></div></div>
         <div class="report-actions">
-          <form method="post" action="{% url 'workbench:generate_report' conversation.pk 'business_twin' %}" data-loading-form>{% csrf_token %}<button class="secondary-button" type="submit" {% if not profile_confirmed %}disabled{% endif %}><span>Business Twin</span><small>{% if twin_report %}Actualiser{% elif profile_confirmed %}Générer{% else %}Fiche non confirmée{% endif %}</small></button></form>
+          <form method="post" action="{% url 'workbench:generate_report' conversation.pk 'company_profile' %}" data-loading-form>{% csrf_token %}<button class="secondary-button" type="submit" {% if not profile_confirmed %}disabled{% endif %}><span>Profil d’entreprise</span><small>{% if company_profile_report %}Actualiser{% elif profile_confirmed %}Générer{% else %}Fiche non confirmée{% endif %}</small></button></form>
           <form method="post" action="{% url 'workbench:generate_report' conversation.pk 'kam' %}" data-loading-form>{% csrf_token %}<button class="secondary-button" type="submit" {% if not profile_confirmed %}disabled{% endif %}><span>Rapport KAM</span><small>{% if kam_report %}Actualiser{% elif profile_confirmed %}Générer{% else %}Fiche non confirmée{% endif %}</small></button></form>
         </div>
         {% if profile and not profile_confirmed %}<p class="locked-hint">Les rapports seront disponibles après confirmation de la fiche entreprise.</p>{% endif %}
 
-        {% if twin_report or kam_report %}
+        {% if company_profile_report or kam_report %}
           <div class="report-tabs" role="tablist" aria-label="Rapports générés">
-            {% if twin_report %}<button type="button" role="tab" aria-selected="true" aria-controls="twin-content" data-tab="twin-content">Twin</button>{% endif %}
-            {% if kam_report %}<button type="button" role="tab" aria-selected="{% if twin_report %}false{% else %}true{% endif %}" aria-controls="kam-content" data-tab="kam-content">KAM</button>{% endif %}
+            {% if company_profile_report %}<button type="button" role="tab" aria-selected="true" aria-controls="company-profile-content" data-tab="company-profile-content">Profil</button>{% endif %}
+            {% if kam_report %}<button type="button" role="tab" aria-selected="{% if company_profile_report %}false{% else %}true{% endif %}" aria-controls="kam-content" data-tab="kam-content">KAM</button>{% endif %}
           </div>
-          {% if twin_report %}
-            <article class="report-preview" id="twin-content" role="tabpanel">
-              <div class="report-status"><span>{{ twin_report.status }}</span><time>{{ twin_report.created_at|date:"d M · H:i" }}</time></div>
-              <h3>{{ twin_report.data.company_summary.name|default:"Entreprise sans nom" }}</h3>
-              <p>{{ twin_report.data.company_summary.sector|default:"Secteur à préciser" }} · {{ twin_report.data.company_summary.size|default:"Taille à préciser" }}</p>
-              <h4>Ce qui est intéressant</h4>
-              <ul>{% for item in twin_report.data.interesting_services %}<li>{{ item.description }}</li>{% empty %}<li>Encore aucune opportunité assez qualifiée.</li>{% endfor %}</ul>
-              <h4>Prochaines actions</h4>
-              <ul>{% for item in twin_report.data.recommended_next_actions %}<li>{{ item.description }}</li>{% endfor %}</ul>
-              <div class="export-actions" aria-label="Exporter le Business Twin">
-                <a href="{% url 'workbench:export_report' conversation.pk 'business_twin' twin_report.pk 'html' %}" target="_blank" rel="noopener">HTML · imprimer</a>
-                <a href="{% url 'workbench:export_report' conversation.pk 'business_twin' twin_report.pk 'json' %}" download>JSON</a>
+          {% if company_profile_report %}
+            <article class="report-preview" id="company-profile-content" role="tabpanel">
+              <div class="report-status"><span>{{ company_profile_report.status }}</span><time>{{ company_profile_report.created_at|date:"d M · H:i" }}</time></div>
+              <h3>{{ company_profile_report.data.company_summary.name|default:"Entreprise sans nom" }}</h3>
+              <p>{{ company_profile_report.data.description }}</p>
+              {% if company_profile_report.data.needs %}<h4>Besoins déclarés</h4><ul>{% for item in company_profile_report.data.needs %}<li>{{ item.description }}</li>{% endfor %}</ul>{% endif %}
+              {% if company_profile_report.data.constraints %}<h4>Contraintes déclarées</h4><ul>{% for item in company_profile_report.data.constraints %}<li>{{ item.description }}</li>{% endfor %}</ul>{% endif %}
+              {% if company_profile_report.data.missing_information %}<h4>Informations à préciser</h4><ul>{% for item in company_profile_report.data.missing_information %}<li>{{ item }}</li>{% endfor %}</ul>{% endif %}
+              <div class="export-actions" aria-label="Exporter le profil d’entreprise">
+                <a href="{% url 'workbench:export_report' conversation.pk 'company_profile' company_profile_report.pk 'html' %}" target="_blank" rel="noopener">HTML · imprimer</a>
+                <a href="{% url 'workbench:export_report' conversation.pk 'company_profile' company_profile_report.pk 'json' %}" download>JSON</a>
               </div>
             </article>
           {% endif %}
           {% if kam_report %}
-            <article class="report-preview" id="kam-content" role="tabpanel" {% if twin_report %}hidden{% endif %}>
+            <article class="report-preview" id="kam-content" role="tabpanel" {% if company_profile_report %}hidden{% endif %}>
               <div class="report-status"><span>{{ kam_report.status }}</span><time>{{ kam_report.created_at|date:"d M · H:i" }}</time></div>
               <h3>Synthèse KAM</h3><p>{{ kam_report.data.executive_summary }}</p>
               <h4>Opportunités</h4><ul>{% for item in kam_report.data.opportunities %}<li>{{ item.description }}</li>{% endfor %}</ul>

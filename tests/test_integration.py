@@ -204,15 +204,29 @@ def test_reports_are_schema_valid_and_idempotent() -> None:
     service.analyze_conversation(conversation.pk)
 
     kam = service.generate_report(conversation.pk, "kam")
-    twin = service.generate_report(conversation.pk, "business_twin")
+    company_profile = service.generate_report(conversation.pk, "company_profile")
     replay = service.generate_report(conversation.pk, "kam")
 
     assert kam.status == "final"
-    assert twin.data["company_summary"]["name"] == "École Lumière"
-    assert {item["service_id"] for item in twin.data["interesting_services"]} <= catalog().allowed_service_ids
+    assert company_profile.data["company_summary"]["name"] == "École Lumière"
+    assert "interesting_services" not in company_profile.data
+    assert "recommended_next_actions" not in company_profile.data
+    assert company_profile.report_type == "company_profile"
     assert replay.report_id == kam.report_id
     assert replay.replayed is True
     assert GeneratedReport.objects.count() == 2
+
+
+def test_legacy_business_twin_input_returns_a_company_profile() -> None:
+    service = service_with(successful_patch)
+    conversation = service.create_conversation()
+    service.process_conversation_turn(conversation.pk, "Message", "turn-1")
+    service.analyze_conversation(conversation.pk)
+
+    report = service.generate_report(conversation.pk, "business_twin")
+
+    assert report.report_type == "company_profile"
+    assert "interesting_services" not in report.data
 
 
 def test_confirmed_profile_replaces_draft_and_recomputes_recommendations() -> None:

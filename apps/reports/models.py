@@ -5,13 +5,13 @@ from django.db import models
 from pydantic import ValidationError as PydanticValidationError
 
 from apps.ai_core.models import CompanyProfileSnapshot, Conversation, RecommendationRecord
-from .contracts import BusinessTwin, KAMReport
+from .contracts import CompanyProfileReport, KAMReport
 
 
 class GeneratedReport(models.Model):
     class ReportType(models.TextChoices):
         KAM = "kam", "KAM"
-        BUSINESS_TWIN = "business_twin", "Business Twin"
+        COMPANY_PROFILE = "company_profile", "Profil d’entreprise"
 
     class Status(models.TextChoices):
         FINAL = "final", "Final"
@@ -41,7 +41,12 @@ class GeneratedReport(models.Model):
         ]
 
     def clean(self) -> None:
-        contract = KAMReport if self.report_type == self.ReportType.KAM else BusinessTwin
+        if self.report_type == self.ReportType.KAM:
+            contract = KAMReport
+        elif self.report_type == self.ReportType.COMPANY_PROFILE:
+            contract = CompanyProfileReport
+        else:
+            raise ValidationError({"report_type": "unsupported report type"})
         try:
             report = contract.model_validate(self.data)
         except PydanticValidationError as exc:
@@ -54,4 +59,3 @@ class GeneratedReport(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         return super().save(*args, **kwargs)
-

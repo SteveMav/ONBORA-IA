@@ -12,16 +12,16 @@ from apps.ai_core.contracts import CompanyProfile, FactStatus
 from apps.ai_core.contracts.base import ContractModel
 from apps.ai_core.domain import merge_profile, recommend_services
 from apps.ai_core.evaluation import load_evaluation_cases, patch_from_case
-from apps.reports.contracts import BusinessTwin, KAMReport
+from apps.reports.contracts import CompanyProfileReport, KAMReport
 from apps.reports.services import ReportBuilder
 
 
 class ReportReviewChecklist(ContractModel):
     facts_and_inferences_are_clear: bool = False
-    opportunities_are_supported: bool = False
+    information_is_accurate_and_supported: bool = False
     limitations_are_visible: bool = False
     content_is_useful_for_target_role: bool = False
-    next_actions_are_actionable: bool = False
+    unsupported_claims_are_absent: bool = False
     export_is_readable: bool = False
 
 
@@ -35,14 +35,14 @@ class ReportReviewDecision(ContractModel):
 class ReportReviewSample(ContractModel):
     sample_id: str = Field(pattern=r"^[a-z0-9][a-z0-9_.-]{2,159}$")
     scenario_id: str = Field(min_length=1, max_length=160)
-    report_type: Literal["kam", "business_twin"]
+    report_type: Literal["kam", "company_profile"]
     report: dict[str, object]
     checklist: ReportReviewChecklist = Field(default_factory=ReportReviewChecklist)
     decision: ReportReviewDecision = Field(default_factory=ReportReviewDecision)
 
     @model_validator(mode="after")
     def report_matches_type(self) -> "ReportReviewSample":
-        contract = KAMReport if self.report_type == "kam" else BusinessTwin
+        contract = KAMReport if self.report_type == "kam" else CompanyProfileReport
         contract.model_validate(self.report)
         return self
 
@@ -62,7 +62,8 @@ class ReportReviewPackage(ContractModel):
         mismatched_catalogs = [
             sample.sample_id
             for sample in self.samples
-            if sample.report.get("catalog_version") != self.catalog_version
+            if sample.report_type == "kam"
+            and sample.report.get("catalog_version") != self.catalog_version
         ]
         if mismatched_catalogs:
             raise ValueError(
@@ -136,7 +137,7 @@ def prepare_report_review_package(
 
         reports = {
             "kam": builder.build_kam(profile, recommendations).report,
-            "business_twin": builder.build_business_twin(profile, recommendations).report,
+            "company_profile": builder.build_company_profile(profile).report,
         }
         for report_type, report in reports.items():
             samples.append(
@@ -200,9 +201,9 @@ def report_review_approval_errors(package: ReportReviewPackage) -> list[str]:
             errors.append(f"{prefix} review date cannot be in the future")
 
     for scenario_id, report_types in sorted(by_scenario.items()):
-        if report_types != {"kam", "business_twin"}:
+        if report_types != {"kam", "company_profile"}:
             errors.append(
-                f"scenario {scenario_id}: both kam and business_twin reviews are required"
+                f"scenario {scenario_id}: both kam and company_profile reviews are required"
             )
     return errors
 

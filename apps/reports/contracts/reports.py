@@ -41,7 +41,7 @@ class KAMReport(ContractModel):
     catalog_version: str
 
 
-class TwinCompanySummary(ContractModel):
+class CompanySummary(ContractModel):
     name: str | None = None
     sector: str | None = None
     size: str | None = None
@@ -49,17 +49,12 @@ class TwinCompanySummary(ContractModel):
     locations: list[str] = Field(default_factory=list, max_length=20)
 
 
-class BusinessTwin(ContractModel):
+class CompanyProfileReport(ContractModel):
     schema_version: Literal["1.0"] = "1.0"
     status: ReportStatus
-    company_summary: TwinCompanySummary
-    current_situation: list[ReportItem] = Field(default_factory=list, max_length=100)
-    needs_and_pain_points: list[ReportItem] = Field(default_factory=list, max_length=100)
-    business_opportunities: list[ReportItem] = Field(default_factory=list, max_length=100)
-    interesting_services: list[ReportItem] = Field(default_factory=list, max_length=50)
-    risks_and_constraints: list[ReportItem] = Field(default_factory=list, max_length=100)
+    description: str = Field(min_length=1, max_length=4_000)
+    company_summary: CompanySummary
+    needs: list[ReportItem] = Field(default_factory=list, max_length=100)
+    constraints: list[ReportItem] = Field(default_factory=list, max_length=100)
     missing_information: list[str] = Field(default_factory=list, max_length=50)
-    recommended_next_actions: list[ReportItem] = Field(default_factory=list, max_length=50)
     sources: list[str] = Field(default_factory=list, max_length=200)
-    catalog_version: str
-

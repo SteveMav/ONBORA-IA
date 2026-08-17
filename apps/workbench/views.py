@@ -156,7 +156,9 @@ def _context(
             ),
             "analysis_complete": analysis_complete,
             "kam_report": reports.get(GeneratedReport.ReportType.KAM),
-            "twin_report": reports.get(GeneratedReport.ReportType.BUSINESS_TWIN),
+            "company_profile_report": reports.get(
+                GeneratedReport.ReportType.COMPANY_PROFILE
+            ),
         }
     )
     return context
@@ -294,6 +296,8 @@ def export_report(
     report_id: int,
     export_format: str,
 ) -> HttpResponse:
+    if report_type == "business_twin":
+        report_type = GeneratedReport.ReportType.COMPANY_PROFILE
     if report_type not in GeneratedReport.ReportType.values:
         return HttpResponseBadRequest("Type de rapport non pris en charge.")
     if export_format not in {"json", "html"}:

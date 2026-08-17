@@ -1,6 +1,6 @@
 {
   "review_schema_version": "1.0",
-  "generated_on": "2026-07-29",
+  "generated_on": "2026-08-17",
   "catalog_version": "orange-business-rdc-global-2026-07-28",
   "minimum_scenarios_required": 5,
   "samples": [
@@ -117,10 +117,10 @@
       },
       "checklist": {
         "facts_and_inferences_are_clear": false,
-        "opportunities_are_supported": false,
+        "information_is_accurate_and_supported": false,
         "limitations_are_visible": false,
         "content_is_useful_for_target_role": false,
-        "next_actions_are_actionable": false,
+        "unsupported_claims_are_absent": false,
         "export_is_readable": false
       },
       "decision": {
@@ -131,12 +131,13 @@
       }
     },
     {
-      "sample_id": "global-cloud-migration.business_twin",
+      "sample_id": "global-cloud-migration.company_profile",
       "scenario_id": "global-cloud-migration",
-      "report_type": "business_twin",
+      "report_type": "company_profile",
       "report": {
         "schema_version": "1.0",
         "status": "final",
+        "description": "Groupe Horizon évolue dans le secteur services. Ses activités déclarées sont : services numériques. Sa taille déclarée est de 350. Elle est présente à Kinshasa, Johannesburg. Ses besoins déclarés sont : migration cloud hybride. Ses contraintes déclarées sont : résidence des données et continuité.",
         "company_summary": {
           "name": "Groupe Horizon",
           "sector": "services",
@@ -149,33 +150,7 @@
             "Johannesburg"
           ]
         },
-        "current_situation": [
-          {
-            "description": "activité : services numériques",
-            "status": "confirmed",
-            "source_refs": [
-              "review:global-cloud-migration:turn:1"
-            ],
-            "service_id": null
-          },
-          {
-            "description": "localisation : Kinshasa",
-            "status": "confirmed",
-            "source_refs": [
-              "review:global-cloud-migration:turn:1"
-            ],
-            "service_id": null
-          },
-          {
-            "description": "localisation : Johannesburg",
-            "status": "confirmed",
-            "source_refs": [
-              "review:global-cloud-migration:turn:1"
-            ],
-            "service_id": null
-          }
-        ],
-        "needs_and_pain_points": [
+        "needs": [
           {
             "description": "migration cloud hybride",
             "status": "confirmed",
@@ -185,29 +160,7 @@
             "service_id": null
           }
         ],
-        "business_opportunities": [
-          {
-            "description": "Cloud international Orange Business — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « migration cloud ». Disponibilité en RDC : Portefeuille mondial officiel; éligibilité, contractualisation, support et hébergement pour une entité en RDC à confirmer avec Orange Business.",
-            "status": "inferred",
-            "source_refs": [
-              "review:global-cloud-migration:turn:1",
-              "catalog:global_cloud_portfolio"
-            ],
-            "service_id": "global_cloud_portfolio"
-          }
-        ],
-        "interesting_services": [
-          {
-            "description": "Cloud international Orange Business — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « migration cloud ». Disponibilité en RDC : Portefeuille mondial officiel; éligibilité, contractualisation, support et hébergement pour une entité en RDC à confirmer avec Orange Business.",
-            "status": "inferred",
-            "source_refs": [
-              "review:global-cloud-migration:turn:1",
-              "catalog:global_cloud_portfolio"
-            ],
-            "service_id": "global_cloud_portfolio"
-          }
-        ],
-        "risks_and_constraints": [
+        "constraints": [
           {
             "description": "résidence des données et continuité",
             "status": "confirmed",
@@ -218,19 +171,16 @@
           }
         ],
         "missing_information": [],
-        "recommended_next_actions": [],
         "sources": [
-          "review:global-cloud-migration:turn:1",
-          "catalog:global_cloud_portfolio"
-        ],
-        "catalog_version": "orange-business-rdc-global-2026-07-28"
+          "review:global-cloud-migration:turn:1"
+        ]
       },
       "checklist": {
         "facts_and_inferences_are_clear": false,
-        "opportunities_are_supported": false,
+        "information_is_accurate_and_supported": false,
         "limitations_are_visible": false,
         "content_is_useful_for_target_role": false,
-        "next_actions_are_actionable": false,
+        "unsupported_claims_are_absent": false,
         "export_is_readable": false
       },
       "decision": {
@@ -353,10 +303,10 @@
       },
       "checklist": {
         "facts_and_inferences_are_clear": false,
-        "opportunities_are_supported": false,
+        "information_is_accurate_and_supported": false,
         "limitations_are_visible": false,
         "content_is_useful_for_target_role": false,
-        "next_actions_are_actionable": false,
+        "unsupported_claims_are_absent": false,
         "export_is_readable": false
       },
       "decision": {
@@ -367,12 +317,13 @@
       }
     },
     {
-      "sample_id": "global-managed-cybersecurity.business_twin",
+      "sample_id": "global-managed-cybersecurity.company_profile",
       "scenario_id": "global-managed-cybersecurity",
-      "report_type": "business_twin",
+      "report_type": "company_profile",
       "report": {
         "schema_version": "1.0",
         "status": "final",
+        "description": "Industries Kivu évolue dans le secteur industry. Ses activités déclarées sont : production industrielle. Sa taille déclarée est de 500. Elle est présente à Kinshasa, Lubumbashi. Ses besoins déclarés sont : service sécurité managé avec mdr. Ses contraintes déclarées sont : surveillance continue et systèmes OT.",
         "company_summary": {
           "name": "Industries Kivu",
           "sector": "industry",
@@ -385,33 +336,7 @@
             "Lubumbashi"
           ]
         },
-        "current_situation": [
-          {
-            "description": "activité : production industrielle",
-            "status": "confirmed",
-            "source_refs": [
-              "review:global-managed-cybersecurity:turn:1"
-            ],
-            "service_id": null
-          },
-          {
-            "description": "localisation : Kinshasa",
-            "status": "confirmed",
-            "source_refs": [
-              "review:global-managed-cybersecurity:turn:1"
-            ],
-            "service_id": null
-          },
-          {
-            "description": "localisation : Lubumbashi",
-            "status": "confirmed",
-            "source_refs": [
-              "review:global-managed-cybersecurity:turn:1"
-            ],
-            "service_id": null
-          }
-        ],
-        "needs_and_pain_points": [
+        "needs": [
           {
             "description": "service sécurité managé avec mdr",
             "status": "confirmed",
@@ -421,29 +346,7 @@
             "service_id": null
           }
         ],
-        "business_opportunities": [
-          {
-            "description": "Services managés Orange Cyberdefense — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « service sécurité managé » et qu’elle est pertinente pour votre secteur. Disponibilité en RDC : Orange Cyberdefense annonce un support international; le modèle de vente, d’onboarding et d’opérations applicable à la RDC doit être confirmé.",
-            "status": "inferred",
-            "source_refs": [
-              "review:global-managed-cybersecurity:turn:1",
-              "catalog:ocd_managed_services"
-            ],
-            "service_id": "ocd_managed_services"
-          }
-        ],
-        "interesting_services": [
-          {
-            "description": "Services managés Orange Cyberdefense — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « service sécurité managé » et qu’elle est pertinente pour votre secteur. Disponibilité en RDC : Orange Cyberdefense annonce un support international; le modèle de vente, d’onboarding et d’opérations applicable à la RDC doit être confirmé.",
-            "status": "inferred",
-            "source_refs": [
-              "review:global-managed-cybersecurity:turn:1",
-              "catalog:ocd_managed_services"
-            ],
-            "service_id": "ocd_managed_services"
-          }
-        ],
-        "risks_and_constraints": [
+        "constraints": [
           {
             "description": "surveillance continue et systèmes OT",
             "status": "confirmed",
@@ -454,19 +357,16 @@
           }
         ],
         "missing_information": [],
-        "recommended_next_actions": [],
         "sources": [
-          "review:global-managed-cybersecurity:turn:1",
-          "catalog:ocd_managed_services"
-        ],
-        "catalog_version": "orange-business-rdc-global-2026-07-28"
+          "review:global-managed-cybersecurity:turn:1"
+        ]
       },
       "checklist": {
         "facts_and_inferences_are_clear": false,
-        "opportunities_are_supported": false,
+        "information_is_accurate_and_supported": false,
         "limitations_are_visible": false,
         "content_is_useful_for_target_role": false,
-        "next_actions_are_actionable": false,
+        "unsupported_claims_are_absent": false,
         "export_is_readable": false
       },
       "decision": {
@@ -589,10 +489,10 @@
       },
       "checklist": {
         "facts_and_inferences_are_clear": false,
-        "opportunities_are_supported": false,
+        "information_is_accurate_and_supported": false,
         "limitations_are_visible": false,
         "content_is_useful_for_target_role": false,
-        "next_actions_are_actionable": false,
+        "unsupported_claims_are_absent": false,
         "export_is_readable": false
       },
       "decision": {
@@ -603,12 +503,13 @@
       }
     },
     {
-      "sample_id": "school-connectivity-backup.business_twin",
+      "sample_id": "school-connectivity-backup.company_profile",
       "scenario_id": "school-connectivity-backup",
-      "report_type": "business_twin",
+      "report_type": "company_profile",
       "report": {
         "schema_version": "1.0",
         "status": "final",
+        "description": "École Lumière évolue dans le secteur education. Ses activités déclarées sont : formation professionnelle. Sa taille déclarée est de 25. Elle est présente à Kinshasa. Ses besoins déclarés sont : connexion internet stable, sauvegarde des données.",
         "company_summary": {
           "name": "École Lumière",
           "sector": "education",
@@ -620,25 +521,7 @@
             "Kinshasa"
           ]
         },
-        "current_situation": [
-          {
-            "description": "activité : formation professionnelle",
-            "status": "confirmed",
-            "source_refs": [
-              "review:school-connectivity-backup:turn:1"
-            ],
-            "service_id": null
-          },
-          {
-            "description": "localisation : Kinshasa",
-            "status": "confirmed",
-            "source_refs": [
-              "review:school-connectivity-backup:turn:1"
-            ],
-            "service_id": null
-          }
-        ],
-        "needs_and_pain_points": [
+        "needs": [
           {
             "description": "connexion internet stable",
             "status": "confirmed",
@@ -656,43 +539,18 @@
             "service_id": null
           }
         ],
-        "business_opportunities": [
-          {
-            "description": "Internet illimité Fibre — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « internet ».",
-            "status": "inferred",
-            "source_refs": [
-              "review:school-connectivity-backup:turn:1",
-              "catalog:internet_fibre_illimite"
-            ],
-            "service_id": "internet_fibre_illimite"
-          }
-        ],
-        "interesting_services": [
-          {
-            "description": "Internet illimité Fibre — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « internet ».",
-            "status": "inferred",
-            "source_refs": [
-              "review:school-connectivity-backup:turn:1",
-              "catalog:internet_fibre_illimite"
-            ],
-            "service_id": "internet_fibre_illimite"
-          }
-        ],
-        "risks_and_constraints": [],
+        "constraints": [],
         "missing_information": [],
-        "recommended_next_actions": [],
         "sources": [
-          "review:school-connectivity-backup:turn:1",
-          "catalog:internet_fibre_illimite"
-        ],
-        "catalog_version": "orange-business-rdc-global-2026-07-28"
+          "review:school-connectivity-backup:turn:1"
+        ]
       },
       "checklist": {
         "facts_and_inferences_are_clear": false,
-        "opportunities_are_supported": false,
+        "information_is_accurate_and_supported": false,
         "limitations_are_visible": false,
         "content_is_useful_for_target_role": false,
-        "next_actions_are_actionable": false,
+        "unsupported_claims_are_absent": false,
         "export_is_readable": false
       },
       "decision": {
@@ -799,10 +657,10 @@
       },
       "checklist": {
         "facts_and_inferences_are_clear": false,
-        "opportunities_are_supported": false,
+        "information_is_accurate_and_supported": false,
         "limitations_are_visible": false,
         "content_is_useful_for_target_role": false,
-        "next_actions_are_actionable": false,
+        "unsupported_claims_are_absent": false,
         "export_is_readable": false
       },
       "decision": {
@@ -813,12 +671,13 @@
       }
     },
     {
-      "sample_id": "shop-payments.business_twin",
+      "sample_id": "shop-payments.company_profile",
       "scenario_id": "shop-payments",
-      "report_type": "business_twin",
+      "report_type": "company_profile",
       "report": {
         "schema_version": "1.0",
         "status": "final",
+        "description": "Boutique Kivu évolue dans le secteur commerce. Ses activités déclarées sont : vente au détail. Sa taille déclarée est de 8. Elle est présente à Goma. Ses besoins déclarés sont : paiement et encaissement mobile money.",
         "company_summary": {
           "name": "Boutique Kivu",
           "sector": "commerce",
@@ -830,25 +689,7 @@
             "Goma"
           ]
         },
-        "current_situation": [
-          {
-            "description": "activité : vente au détail",
-            "status": "confirmed",
-            "source_refs": [
-              "review:shop-payments:turn:1"
-            ],
-            "service_id": null
-          },
-          {
-            "description": "localisation : Goma",
-            "status": "confirmed",
-            "source_refs": [
-              "review:shop-payments:turn:1"
-            ],
-            "service_id": null
-          }
-        ],
-        "needs_and_pain_points": [
+        "needs": [
           {
             "description": "paiement et encaissement mobile money",
             "status": "confirmed",
@@ -858,43 +699,18 @@
             "service_id": null
           }
         ],
-        "business_opportunities": [
-          {
-            "description": "API Orange Money — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « mobile money » et qu’elle est pertinente pour votre secteur.",
-            "status": "inferred",
-            "source_refs": [
-              "review:shop-payments:turn:1",
-              "catalog:api_orange_money"
-            ],
-            "service_id": "api_orange_money"
-          }
-        ],
-        "interesting_services": [
-          {
-            "description": "API Orange Money — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « mobile money » et qu’elle est pertinente pour votre secteur.",
-            "status": "inferred",
-            "source_refs": [
-              "review:shop-payments:turn:1",
-              "catalog:api_orange_money"
-            ],
-            "service_id": "api_orange_money"
-          }
-        ],
-        "risks_and_constraints": [],
+        "constraints": [],
         "missing_information": [],
-        "recommended_next_actions": [],
         "sources": [
-          "review:shop-payments:turn:1",
-          "catalog:api_orange_money"
-        ],
-        "catalog_version": "orange-business-rdc-global-2026-07-28"
+          "review:shop-payments:turn:1"
+        ]
       },
       "checklist": {
         "facts_and_inferences_are_clear": false,
-        "opportunities_are_supported": false,
+        "information_is_accurate_and_supported": false,
         "limitations_are_visible": false,
         "content_is_useful_for_target_role": false,
-        "next_actions_are_actionable": false,
+        "unsupported_claims_are_absent": false,
         "export_is_readable": false
       },
       "decision": {
@@ -1001,10 +817,10 @@
       },
       "checklist": {
         "facts_and_inferences_are_clear": false,
-        "opportunities_are_supported": false,
+        "information_is_accurate_and_supported": false,
         "limitations_are_visible": false,
         "content_is_useful_for_target_role": false,
-        "next_actions_are_actionable": false,
+        "unsupported_claims_are_absent": false,
         "export_is_readable": false
       },
       "decision": {
@@ -1015,12 +831,13 @@
       }
     },
     {
-      "sample_id": "security-assessment.business_twin",
+      "sample_id": "security-assessment.company_profile",
       "scenario_id": "security-assessment",
-      "report_type": "business_twin",
+      "report_type": "company_profile",
       "report": {
         "schema_version": "1.0",
         "status": "final",
+        "description": "Services Horizon évolue dans le secteur services. Ses activités déclarées sont : services professionnels. Sa taille déclarée est de 40. Elle est présente à Kinshasa. Ses besoins déclarés sont : protection et cybersécurité.",
         "company_summary": {
           "name": "Services Horizon",
           "sector": "services",
@@ -1032,25 +849,7 @@
             "Kinshasa"
           ]
         },
-        "current_situation": [
-          {
-            "description": "activité : services professionnels",
-            "status": "confirmed",
-            "source_refs": [
-              "review:security-assessment:turn:1"
-            ],
-            "service_id": null
-          },
-          {
-            "description": "localisation : Kinshasa",
-            "status": "confirmed",
-            "source_refs": [
-              "review:security-assessment:turn:1"
-            ],
-            "service_id": null
-          }
-        ],
-        "needs_and_pain_points": [
+        "needs": [
           {
             "description": "protection et cybersécurité",
             "status": "confirmed",
@@ -1060,43 +859,18 @@
             "service_id": null
           }
         ],
-        "business_opportunities": [
-          {
-            "description": "Cyber Diagnostic — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « cybersécurité ».",
-            "status": "inferred",
-            "source_refs": [
-              "review:security-assessment:turn:1",
-              "catalog:cyber_diagnostic"
-            ],
-            "service_id": "cyber_diagnostic"
-          }
-        ],
-        "interesting_services": [
-          {
-            "description": "Cyber Diagnostic — Cette offre a été retenue parce qu’elle répond à votre besoin exprimé autour de « cybersécurité ».",
-            "status": "inferred",
-            "source_refs": [
-              "review:security-assessment:turn:1",
-              "catalog:cyber_diagnostic"
-            ],
-            "service_id": "cyber_diagnostic"
-          }
-        ],
-        "risks_and_constraints": [],
+        "constraints": [],
         "missing_information": [],
-        "recommended_next_actions": [],
         "sources": [
-          "review:security-assessment:turn:1",
-          "catalog:cyber_diagnostic"
-        ],
-        "catalog_version": "orange-business-rdc-global-2026-07-28"
+          "review:security-assessment:turn:1"
+        ]
       },
       "checklist": {
         "facts_and_inferences_are_clear": false,
-        "opportunities_are_supported": false,
+        "information_is_accurate_and_supported": false,
         "limitations_are_visible": false,
         "content_is_useful_for_target_role": false,
-        "next_actions_are_actionable": false,
+        "unsupported_claims_are_absent": false,
         "export_is_readable": false
       },
       "decision": {

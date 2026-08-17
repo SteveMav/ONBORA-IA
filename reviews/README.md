@@ -29,18 +29,18 @@ python catalog/intake/validate_intake.py `
 Après succès seulement, exporter vers une nouvelle version avec `--export`. Ne pas écraser
 le catalogue draft ni changer `ONBORA_CATALOG_PATH` avant revue du diff et des tests.
 
-## Rapports KAM et Business Twin
+## Rapports KAM et profils d’entreprise
 
 Le paquet courant contient cinq scénarios synthétiques, chacun décliné en rapport KAM et
-Business Twin. Pour chaque rapport, le KAM ou responsable métier vérifie les six critères,
+profil d’entreprise. Pour chaque rapport, le KAM ou responsable métier vérifie les six critères,
 renseigne son identité, la date, ses notes et la décision.
 
 ```powershell
 python manage.py validate_report_review `
-  reviews/reports/kam-twin-v1.pending.json
+  reviews/reports/kam-company-profiles-v1.pending.json
 
 python manage.py validate_report_review `
-  reviews/reports/kam-twin-v1.pending.json `
+  reviews/reports/kam-company-profiles-v1.pending.json `
   --require-approved
 ```
 
@@ -56,7 +56,7 @@ python manage.py prepare_catalog_review `
 
 python manage.py prepare_report_review `
   --scenario-count 5 `
-  --output reviews/reports/kam-twin-v2.pending.json
+  --output reviews/reports/kam-company-profiles-v2.pending.json
 ```
 
 Les commandes refusent volontairement d’écraser un dossier existant.

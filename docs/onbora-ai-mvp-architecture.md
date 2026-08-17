@@ -3,7 +3,7 @@
 <!-- architecture-section: executive-verdict -->
 ## Executive Verdict
 
-- **Recommendation :** construire un module IA dans une application Django utilisant SQLite. Le module extrait un profil d’entreprise depuis une conversation, rapproche ce profil d’un petit catalogue de services, puis génère un rapport KAM et un « Business Twin » descriptif.
+- **Recommendation :** construire un module IA dans une application Django utilisant SQLite. Le module extrait un profil d’entreprise depuis une conversation, rapproche ce profil d’un petit catalogue de services, puis génère un rapport KAM et un profil d’entreprise exportable.
 - **Pourquoi cela convient :** l’équipe n’attend pas une plateforme complète de la personne responsable de l’IA. Django fournit l’intégration et la persistance nécessaires, SQLite suffit pour les essais à faible concurrence, et un fichier JSON suffit pour un catalogue de 5 à 8 services.
 - **Risque principal :** produire des rapports convaincants mais fondés sur des informations inventées, mal extraites ou sur un catalogue métier incomplet.
 - **Décisions prises maintenant :** Django, SQLite, pipeline IA borné, catalogue léger, recommandations explicables et rapports structurés.
@@ -19,7 +19,7 @@
 - **REQ-002 — Informations manquantes :** identifier les éléments utiles qui n’ont pas encore été fournis et proposer les prochaines questions.
 - **REQ-003 — Opportunités :** identifier ce qui peut être intéressant pour l’entreprise à partir d’un catalogue métier approuvé.
 - **REQ-004 — Rapport KAM :** produire une synthèse exploitable qui distingue les faits rapportés, les inférences et les points à vérifier.
-- **REQ-005 — Business Twin descriptif :** générer une représentation structurée de l’entreprise, de sa situation, de ses besoins, de ses opportunités et des prochaines actions.
+- **REQ-005 — Profil d’entreprise descriptif :** générer une représentation structurée de l’entreprise, de ses activités, de ses implantations, de ses besoins et de ses contraintes, sans recommandation ni prédiction.
 - **REQ-006 — Intégration :** exposer les traitements IA sous forme de services Python/Django que les autres membres de l’équipe peuvent appeler depuis la plateforme.
 - **REQ-007 — Évaluation :** vérifier les résultats sur un petit corpus de conversations synthétiques et reproductibles.
 
@@ -38,7 +38,7 @@
 - La responsabilité actuelle porte sur l’IA et les rapports, pas sur toute la plateforme.
 - Le projet s’intègre à un travail d’équipe ; les autres couches peuvent être réalisées par d’autres personnes.
 - Django et SQLite sont suffisants pour le laboratoire et les démonstrations initiales.
-- Le Business Twin est une description enrichie de l’entreprise, pas un jumeau numérique de simulation.
+- Le profil d’entreprise est une description sourcée, distincte de la recommandation commerciale portée par le rapport KAM.
 - Les premiers essais utilisent uniquement des données fictives ou explicitement anonymisées.
 - Le catalogue initial reste petit et peut être chargé directement depuis des fichiers versionnés.
 
@@ -49,7 +49,7 @@
 |---|---|---:|---|---|
 | Django et SQLite sont le socle souhaité | Décision utilisateur | Élevée | Changerait le bootstrap et la persistance | Validé par le porteur IA |
 | Le périmètre se limite à l’IA et aux rapports | Décision utilisateur | Élevée | Réintroduirait une plateforme beaucoup plus large | Validé par le porteur IA |
-| Le Business Twin est descriptif | Décision utilisateur | Élevée | Changerait fortement son contrat | Valider les premiers exemples |
+| Le profil d’entreprise ne contient aucune recommandation | Décision utilisateur | Élevée | Mélangerait description et décision commerciale | Valider les premiers exemples |
 | Le catalogue contient environ 5 à 8 services | Hypothèse | Moyenne | Affecte le moteur de rapprochement | Importer le catalogue réel |
 | La concurrence d’écriture reste faible | Hypothèse | Moyenne | SQLite pourrait devenir limitant | Observer les erreurs de verrouillage et le nombre d’utilisateurs |
 | L’équipe appelante peut consommer un service Python/Django | Hypothèse | Moyenne | Peut imposer une API HTTP plus tôt | Valider le contrat d’intégration avec l’équipe |
@@ -79,7 +79,7 @@ En cas d’échec du fournisseur, le message reste disponible, le profil précé
 
 ### 3. Générer les rapports
 
-1. Le rapport KAM et le Business Twin utilisent le même profil et les mêmes opportunités.
+1. Le rapport KAM et le profil exportable utilisent les mêmes faits validés; les opportunités restent exclusivement dans le rapport KAM.
 2. Les sorties respectent des schémas JSON versionnés.
 3. Les faits, inférences, incertitudes et informations manquantes restent distincts.
 4. Une version texte ou HTML peut être rendue depuis le JSON sans devenir une nouvelle source de vérité.
@@ -115,7 +115,7 @@ flowchart LR
     Tests("Tests et commandes Django") --> AI
     AI --> Extract("Extraction structurée")
     AI --> Match("Matching déterministe")
-    AI --> Reports("Rapports KAM et Business Twin")
+    AI --> Reports("Rapport KAM et profil d’entreprise")
     Extract --> Model("Adaptateur de modèle")
     Reports --> Model
     AI --> DB("SQLite")
@@ -134,7 +134,7 @@ Le fournisseur de modèle est la principale frontière externe. Les messages, do
 | Extracteur | Construire un patch sourcé | Prompts d’extraction | Message + profil → patch | Port `ChatModel` | Aucun changement de profil |
 | Fusion de profil | Appliquer les faits et conflits | Règles de fusion | Profil + patch → profil | Contrats purs | Conflit explicite |
 | Matching | Identifier les services intéressants | Règles déterministes | Profil + catalogue → opportunités | Python pur | `needs_information` ou `no_match` |
-| Générateurs de rapports | Produire KAM et Business Twin | Prompts et gabarits | Profil + opportunités → rapport | Contrats, modèle optionnel | Rapport non final ou absent |
+| Générateurs de rapports | Produire KAM et profil d’entreprise | Prompts et gabarits | Profil validé, avec opportunités pour KAM uniquement | Contrats, modèle optionnel | Rapport non final ou absent |
 | Adaptateur de modèle | Isoler le SDK du fournisseur | Configuration du modèle | Requête interne → sortie normalisée | SDK fournisseur | Timeout et erreur typés |
 | ORM Django | Persistance locale | Messages, profils, résultats, exécutions | Modèles Django | SQLite | Transaction annulée |
 
@@ -153,7 +153,7 @@ onbora-mvp/
       models.py              # Persistance SQLite
       tests/
     reports/
-      contracts/             # KAM et Business Twin
+      contracts/             # KAM et profil d’entreprise
       services/              # Génération et rendu
       tests/
   catalog/                   # Services et règles JSON versionnés
@@ -181,16 +181,18 @@ Le domaine de fusion et de matching ne dépend ni de Django ni du SDK du fournis
 | `Message` | Historique d’entrée/sortie | rôle, contenu, statut, clé d’idempotence |
 | `CompanyProfileSnapshot` | Profil après traitement | JSON validé, sources, version |
 | `RecommendationResult` | Opportunités déterministes | items, raisons, informations manquantes, version du catalogue |
-| `GeneratedReport` | KAM ou Business Twin | type, JSON validé, rendu optionnel, statut |
+| `GeneratedReport` | KAM ou profil d’entreprise | type, JSON validé, rendu optionnel, statut |
 | `AIExecution` | Diagnostic minimal | but, modèle, prompt, durée, statut, erreur et usage sans secret |
 
 Les champs structurés variables peuvent utiliser `models.JSONField`, pris en charge avec SQLite. Les relations et les identifiants restent des colonnes normales.
 
-### Contrat minimal du Business Twin
+### Contrat minimal du profil d’entreprise
 
 ```json
 {
   "schema_version": "1.0",
+  "status": "final",
+  "description": "Entreprise Exemple évolue dans le secteur education et exerce une activité de formation professionnelle à Kinshasa.",
   "company_summary": {
     "name": "Entreprise Exemple",
     "sector": "education",
@@ -202,18 +204,14 @@ Les champs structurés variables peuvent utiliser `models.JSONField`, pris en ch
       "Kinshasa"
     ]
   },
-  "current_situation": [],
-  "needs_and_pain_points": [],
-  "business_opportunities": [],
-  "interesting_services": [],
-  "risks_and_constraints": [],
+  "needs": [],
+  "constraints": [],
   "missing_information": [],
-  "recommended_next_actions": [],
   "sources": []
 }
 ```
 
-Chaque section accepte des éléments structurés portant au minimum une description, un statut (`reported`, `inferred`, `confirmed`, `unknown`) et des références de source. Une déclaration directe est `reported`; elle devient `confirmed` uniquement après une confirmation explicite. Une inférence ne remplace jamais un fait rapporté ou confirmé.
+Les besoins et contraintes acceptent des éléments structurés portant au minimum une description, un statut (`reported`, `inferred`, `confirmed`, `unknown`) et des références de source. Une déclaration directe est `reported`; elle devient `confirmed` uniquement après une confirmation explicite. Une inférence ne remplace jamais un fait rapporté ou confirmé. Le contrat exclut explicitement opportunités, services et prochaines actions.
 
 ### Interface avec le reste de l’équipe
 
@@ -254,7 +252,7 @@ Une vue Django ou une API HTTP pourra envelopper ces services sans déplacer la 
 | ADR-002 — Base | SQLite ; PostgreSQL | SQLite | Suffisant pour essais et faible concurrence | Verrous fréquents, environnement partagé durable ou plusieurs writers |
 | ADR-003 — Catalogue | JSON ; tables administrables | Fichiers JSON versionnés | Petit catalogue, revue Git simple | Modification fréquente par des non-développeurs |
 | ADR-004 — Recherche produit | Chargement direct ; RAG vectoriel | Chargement direct et matching déterministe | 5–8 services ne justifient pas pgvector | Corpus non structuré important ou pertinence insuffisante mesurée |
-| ADR-005 — Business Twin | Simulation ; rapport structuré | Rapport structuré | Correspond à l’usage décrit | Besoin futur de scénarios calculés ou de données temps réel |
+| ADR-005 — Profil d’entreprise | Profil descriptif ; rapport enrichi | Profil descriptif | Sépare les faits de la recommandation commerciale | Besoin futur d’un autre artefact pour des scénarios calculés |
 | ADR-006 — Interface | Service Python ; API séparée | Service Python d’abord | Limite le travail à l’IA et reste enveloppable | Consommateur hors du processus Django |
 
 ## Évolution par étapes
@@ -267,7 +265,7 @@ Une vue Django ou une API HTTP pourra envelopper ces services sans déplacer la 
 ## Stress test de l’architecture
 
 - **Point de rupture probable :** qualité insuffisante du catalogue ou des exemples, donnant des rapports fluides mais peu utiles.
-- **Hypothèse la plus dangereuse :** croire que le Business Twin peut être validé sans exemples acceptés par un KAM ou un responsable métier.
+- **Hypothèse la plus dangereuse :** croire que le profil généré peut être validé sans exemples acceptés par un KAM ou un responsable métier.
 - **Alternative moins chère :** scripts Python sans Django. Elle suffit à un prototype jetable, mais Django est conservé pour l’intégration d’équipe et la persistance des essais.
 - **Déclencheur d’évolution :** migrer vers PostgreSQL si SQLite produit des erreurs de verrouillage récurrentes ou si plusieurs utilisateurs écrivent simultanément ; ajouter une recherche avancée uniquement après un échec mesuré sur le corpus réel.
 
@@ -280,7 +278,7 @@ Une vue Django ou une API HTTP pourra envelopper ces services sans déplacer la 
 | Mauvaise extraction | Corpus synthétique annoté | Planifié | IA + relecteur métier |
 | Service inventé | Allowlist et tests négatifs | Planifié | IA |
 | Perte de provenance | Test exigeant une source ou le statut `inferred` | Planifié | IA |
-| Rapport peu utile | Revue de 5 rapports KAM/Twin | Planifié | KAM ou responsable métier |
+| Rapport peu utile | Revue de 5 paires KAM/profil | Planifié | KAM ou responsable métier |
 | Régression de prompt/modèle | Même corpus rejoué avec versions enregistrées | Planifié | IA |
 | Limites SQLite | Test de l’usage réel de démonstration | Accepté pour la V1 | Équipe |
 
@@ -296,7 +294,7 @@ Une vue Django ou une API HTTP pourra envelopper ces services sans déplacer la 
 ## Risques et décisions différées
 
 - Le contenu du catalogue et les critères métier doivent être fournis ou validés par une personne compétente.
-- Le premier schéma du Business Twin est volontairement simple et devra évoluer après revue de rapports réels.
+- Le schéma du profil d’entreprise est volontairement simple et devra évoluer après revue de rapports réels.
 - Gemini est retenu comme premier adaptateur réel ; le fake reste le défaut pour les tests reproductibles.
 - Le mécanisme précis par lequel la plateforme appellera les services IA doit être confirmé avec l’équipe, mais ne bloque pas les fonctions Python.
 - Toute utilisation de données réelles nécessite une décision séparée sur le fournisseur, la rétention et les accès.
@@ -308,6 +306,6 @@ Une vue Django ou une API HTTP pourra envelopper ces services sans déplacer la 
 2. Définir les contrats JSON et leurs exemples valides/invalides.
 3. Construire le catalogue minimal et le matching déterministe.
 4. Implémenter le fake, l’extraction structurée et la fusion du profil.
-5. Générer le rapport KAM et le Business Twin depuis le même état validé.
+5. Générer le rapport KAM et le profil d’entreprise depuis le même état validé.
 6. Exposer des services Python stables pour l’équipe.
 7. Ajouter le corpus synthétique et le gate de régression avant l’adaptateur réel.

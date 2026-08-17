@@ -6,17 +6,17 @@ from apps.ai_core.catalog import CatalogDefinition
 from apps.ai_core.contracts import CompanyProfile, Fact, FactStatus, RecommendationResult
 from apps.ai_core.contracts.recommendation import RecommendationStatus
 from apps.reports.contracts import (
-    BusinessTwin,
+    CompanyProfileReport,
+    CompanySummary,
     KAMReport,
     ReportItem,
     ReportStatus,
-    TwinCompanySummary,
 )
 
 
 @dataclass(frozen=True)
 class ReportBundle:
-    report: KAMReport | BusinessTwin
+    report: KAMReport | CompanyProfileReport
     rendered_text: str
 
 
@@ -48,6 +48,45 @@ def _all_facts(profile: CompanyProfile) -> list[tuple[str, Fact]]:
     for name in ("activities", "locations", "needs", "constraints"):
         facts.extend((name, fact) for fact in getattr(profile, name))
     return facts
+
+
+def _company_description(profile: CompanyProfile) -> str:
+    name = _text(profile.name.value) if profile.name else "L’entreprise"
+    sentences: list[str] = []
+    if profile.sector:
+        sentences.append(f"{name} évolue dans le secteur {_text(profile.sector.value)}.")
+    else:
+        sentences.append(f"{name} est une entreprise dont le secteur reste à préciser.")
+    if profile.activities:
+        sentences.append(
+            "Ses activités déclarées sont : "
+            + ", ".join(_text(fact.value) for fact in profile.activities)
+            + "."
+        )
+    if profile.size:
+        sentences.append(f"Sa taille déclarée est de {_text(profile.size.value)}.")
+    if profile.locations:
+        sentences.append(
+            "Elle est présente à "
+            + ", ".join(_text(fact.value) for fact in profile.locations)
+            + "."
+        )
+    if profile.needs:
+        sentences.append(
+            "Ses besoins déclarés sont : "
+            + ", ".join(_text(fact.value) for fact in profile.needs)
+            + "."
+        )
+    if profile.constraints:
+        sentences.append(
+            "Ses contraintes déclarées sont : "
+            + ", ".join(_text(fact.value) for fact in profile.constraints)
+            + "."
+        )
+    description = " ".join(sentences)
+    if len(description) > 4_000:
+        description = description[:3_999].rstrip() + "…"
+    return description
 
 
 class ReportBuilder:
@@ -156,20 +195,14 @@ class ReportBuilder:
         )
         return ReportBundle(report=report, rendered_text=rendered)
 
-    def build_business_twin(
-        self, profile: CompanyProfile, recommendations: RecommendationResult
-    ) -> ReportBundle:
-        opportunities = self._opportunities(recommendations)
+    def build_company_profile(self, profile: CompanyProfile) -> ReportBundle:
         all_facts = [fact for _, fact in _all_facts(profile)]
         sources = list(
             dict.fromkeys(
-                [
-                    *(ref for fact in all_facts for ref in fact.source_refs),
-                    *(ref for item in opportunities for ref in item.source_refs),
-                ]
+                ref for fact in all_facts for ref in fact.source_refs
             )
         )
-        summary = TwinCompanySummary(
+        summary = CompanySummary(
             name=_text(profile.name.value) if profile.name else None,
             sector=_text(profile.sector.value) if profile.sector else None,
             size=_text(profile.size.value) if profile.size else None,
@@ -177,33 +210,32 @@ class ReportBuilder:
             locations=[_text(fact.value) for fact in profile.locations],
         )
         missing = list(
-            dict.fromkeys([*profile.missing_information, *recommendations.missing_information])
-        )
-        next_actions = [
-            ReportItem(
-                description=f"Collecter ou confirmer : {field}",
-                status=FactStatus.INFERRED,
+            dict.fromkeys(
+                [
+                    *profile.missing_information,
+                    *(conflict.field_name for conflict in profile.conflicts),
+                ]
             )
-            for field in missing
-        ]
-        twin = BusinessTwin(
-            status=self._status(profile, recommendations),
+        )
+        company_profile = CompanyProfileReport(
+            status=(
+                ReportStatus.NON_FINAL
+                if profile.missing_information or profile.conflicts
+                else ReportStatus.FINAL
+            ),
+            description=_company_description(profile),
             company_summary=summary,
-            current_situation=[
-                *[_fact_item(fact, prefix="activité") for fact in profile.activities],
-                *[_fact_item(fact, prefix="localisation") for fact in profile.locations],
-            ],
-            needs_and_pain_points=[_fact_item(fact) for fact in profile.needs],
-            business_opportunities=opportunities,
-            interesting_services=opportunities,
-            risks_and_constraints=[_fact_item(fact) for fact in profile.constraints],
+            needs=[_fact_item(fact) for fact in profile.needs],
+            constraints=[_fact_item(fact) for fact in profile.constraints],
             missing_information=missing,
-            recommended_next_actions=next_actions,
             sources=sources,
-            catalog_version=recommendations.catalog_version,
         )
-        rendered = (
-            f"Business Twin — {summary.name or 'Entreprise non identifiée'}\n"
-            + "\n".join(f"- {item.description}" for item in opportunities)
+        rendered = "\n".join(
+            [
+                f"Profil d’entreprise — {summary.name or 'Entreprise non identifiée'}",
+                company_profile.description,
+                *[f"Besoin : {item.description}" for item in company_profile.needs],
+                *[f"Contrainte : {item.description}" for item in company_profile.constraints],
+            ]
         )
-        return ReportBundle(report=twin, rendered_text=rendered)
+        return ReportBundle(report=company_profile, rendered_text=rendered)

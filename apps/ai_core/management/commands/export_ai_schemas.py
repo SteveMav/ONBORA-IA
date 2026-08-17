@@ -14,11 +14,11 @@ from apps.ai_core.contracts import (
     RecommendationResult,
     TurnResult,
 )
-from apps.reports.contracts import BusinessTwin, KAMReport
+from apps.reports.contracts import CompanyProfileReport, KAMReport
 
 
 SCHEMAS = {
-    "business-twin.schema.json": BusinessTwin,
+    "company-profile-report.schema.json": CompanyProfileReport,
     "catalog.schema.json": CatalogDefinition,
     "company-profile-patch.schema.json": CompanyProfilePatch,
     "company-profile.schema.json": CompanyProfile,

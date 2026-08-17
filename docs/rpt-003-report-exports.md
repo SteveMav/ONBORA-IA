@@ -1,6 +1,6 @@
 # RPT-003 — Exports des rapports
 
-La V1 exporte chaque rapport KAM et Business Twin existant sous deux formes :
+La V1 exporte chaque rapport KAM et profil d’entreprise existant sous deux formes :
 
 - JSON téléchargé, revalidé avec le contrat Pydantic correspondant avant sérialisation ;
 - HTML autonome, échappé par le moteur de templates Django et optimisé pour l’impression A4.

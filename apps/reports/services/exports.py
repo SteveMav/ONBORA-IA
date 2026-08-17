@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 from django.template.loader import render_to_string
 
-from apps.reports.contracts import BusinessTwin, KAMReport
+from apps.reports.contracts import CompanyProfileReport, KAMReport
 from apps.reports.models import GeneratedReport
 
 
@@ -21,11 +21,11 @@ class ReportExport:
     disposition: str
 
 
-def _validated_contract(report: GeneratedReport) -> KAMReport | BusinessTwin:
+def _validated_contract(report: GeneratedReport) -> KAMReport | CompanyProfileReport:
     if report.report_type == GeneratedReport.ReportType.KAM:
         contract = KAMReport
-    elif report.report_type == GeneratedReport.ReportType.BUSINESS_TWIN:
-        contract = BusinessTwin
+    elif report.report_type == GeneratedReport.ReportType.COMPANY_PROFILE:
+        contract = CompanyProfileReport
     else:
         raise ReportExportError("unsupported report type")
 
@@ -40,7 +40,7 @@ def build_report_export(report: GeneratedReport, export_format: str) -> ReportEx
         raise ReportExportError("unsupported export format")
 
     contract = _validated_contract(report)
-    slug = "kam" if report.report_type == GeneratedReport.ReportType.KAM else "business-twin"
+    slug = "kam" if report.report_type == GeneratedReport.ReportType.KAM else "profil-entreprise"
     base_filename = f"onbora-{slug}-session-{report.conversation_id}"
 
     if export_format == "json":

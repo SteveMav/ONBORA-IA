@@ -9,7 +9,7 @@ from apps.reports.review import prepare_report_review_package
 
 
 class Command(BaseCommand):
-    help = "Génère des rapports synthétiques à soumettre à la revue KAM/métier."
+    help = "Génère des rapports KAM et profils d’entreprise à soumettre à la revue métier."
 
     def add_arguments(self, parser) -> None:
         parser.add_argument(

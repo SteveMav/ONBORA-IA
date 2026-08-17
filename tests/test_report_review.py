@@ -24,6 +24,10 @@ def test_prepared_report_review_contains_five_pending_pairs(tmp_path: Path) -> N
     scenarios = {sample.scenario_id for sample in package.samples}
     assert len(scenarios) == 5
     assert len(package.samples) == 10
+    assert {sample.report_type for sample in package.samples} == {
+        "kam",
+        "company_profile",
+    }
     assert all(sample.decision.status == "pending" for sample in package.samples)
     assert all(
         not any(sample.checklist.model_dump().values())
@@ -57,4 +61,4 @@ def test_report_review_requires_both_types_and_human_identity(tmp_path: Path) ->
         validate_report_review_package(incomplete, require_approved=True)
     message = str(error.value)
     assert "reviewer and review date are required" in message
-    assert "both kam and business_twin reviews are required" in message
+    assert "both kam and company_profile reviews are required" in message

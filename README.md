@@ -19,7 +19,7 @@ production encore nécessaires.**
 | Conversation et extraction Gemini | Fonctionnel | Corriger les confusions résiduelles entre activité, besoin et contrainte |
 | Profil d'entreprise sourcé | Fonctionnel | Faire relire les champs et règles de confirmation par le métier |
 | Matching des offres | Fonctionnel sur catalogue `draft` | Faire approuver les offres et règles par Orange / le responsable métier |
-| Rapports KAM et Business Twin | Fonctionnels en JSON et HTML | Organiser une revue avec leurs utilisateurs cibles |
+| Rapport KAM et profil d’entreprise | Fonctionnels en JSON et HTML | Organiser une revue avec leurs utilisateurs cibles |
 | Évaluations hors ligne | Gate reproductible | Enrichir les scénarios à chaque régression détectée |
 | Évaluation Gemini réelle | 5 scénarios sur 8 entièrement conformes au dernier run | Atteindre le seuil de qualité convenu avant données réelles |
 | Interface de démonstration | Fonctionnelle en local | Conserver ce workbench léger jusqu'à l'intégration produit |
@@ -33,7 +33,7 @@ Le détail ticket par ticket et les preuves de vérification sont dans
 1. **Fiabiliser la qualification** — analyser les trois cas Gemini encore non conformes,
    améliorer prompt et règles de fusion, puis figer un seuil de qualité mesurable.
 2. **Valider le métier** — approuver le catalogue, les règles de matching et un échantillon
-   représentatif de rapports KAM / Business Twin.
+   représentatif de rapports KAM et de profils d’entreprise.
 3. **Préparer l'intégration** — stabiliser les DTO du `ConversationService`, préciser le
    contrat d'appel avec l'équipe plateforme et ajouter une API HTTP seulement si nécessaire.
 4. **Durcir avant production** — authentification, isolation des organisations, PostgreSQL,
@@ -53,7 +53,7 @@ Les choix structurants et le backlog complet sont documentés dans
 - matching déterministe avec 28 offres publiques Orange Business RDC et 13 familles
   internationales Orange Business / Orange Cyberdefense ;
 - explication client des offres retenues, de leurs bénéfices et des prérequis à vérifier ;
-- génération d’un rapport KAM et d’un Business Twin descriptif ;
+- génération d’un rapport KAM et d’un profil d’entreprise strictement descriptif ;
 - export autonome des rapports en HTML imprimable et en JSON validé ;
 - idempotence des messages et rapports ;
 - workbench web Django pour tester le parcours sans construire la plateforme complète ;
@@ -157,7 +157,8 @@ alors disponible. L’analyse n’est jamais lancée par le simple envoi d’un 
 clic seulement, le chatbot présente les offres Orange adaptées au problème décrit et
 explique ce qu’elles peuvent apporter. La fiche entreprise affiche également les offres,
 leurs bénéfices et les vérifications nécessaires. La personne corrige et confirme ensuite
-la fiche avant de générer les rapports Business Twin et KAM.
+la fiche avant de générer le profil d’entreprise et le rapport KAM. Le profil décrit
+uniquement l’entreprise ; les offres et prochaines actions restent dans le rapport KAM.
 
 Le workbench est destiné aux essais locaux : il ne fournit ni authentification ni isolation
 multi-tenant.
@@ -192,7 +193,7 @@ service.confirm_company_profile(
     constraints=[],
 )
 kam = service.generate_report(conversation.id, "kam")
-twin = service.generate_report(conversation.id, "business_twin")
+company_profile = service.generate_report(conversation.id, "company_profile")
 ```
 
 Les vues Django ou une future API HTTP doivent envelopper ces services plutôt que manipuler
@@ -244,4 +245,5 @@ python manage.py export_ai_schemas
 - Le fake heuristique sert uniquement à la démonstration ; il ne mesure pas la qualité d’un
   vrai modèle.
 - Les règles de matching, les tarifs et les conditions restent à approuver par le métier.
-- Le Business Twin est un rapport descriptif, pas une simulation dynamique.
+- Le profil d’entreprise reste descriptif ; il ne contient ni recommandation, ni simulation,
+  ni prédiction.

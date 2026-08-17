@@ -25,7 +25,7 @@ class GeneratedReportResult(ContractModel):
     schema_version: Literal["1.0"] = "1.0"
     report_id: int
     conversation_id: int
-    report_type: Literal["kam", "business_twin"]
+    report_type: Literal["kam", "company_profile"]
     status: Literal["final", "non_final"]
     data: dict[str, Any]
     rendered_text: str

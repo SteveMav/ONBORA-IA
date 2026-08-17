@@ -422,11 +422,15 @@ class ConversationService:
     def generate_report(
         self,
         conversation_id: int,
-        report_type: Literal["kam", "business_twin"],
+        report_type: Literal["kam", "company_profile", "business_twin"],
     ) -> GeneratedReportResult:
+        # Preserve callers of the previous public service contract while storing and
+        # returning only the new descriptive company profile type.
+        if report_type == "business_twin":
+            report_type = GeneratedReport.ReportType.COMPANY_PROFILE
         if report_type not in {
             GeneratedReport.ReportType.KAM,
-            GeneratedReport.ReportType.BUSINESS_TWIN,
+            GeneratedReport.ReportType.COMPANY_PROFILE,
         }:
             raise ServiceError("invalid_report_type")
         try:
@@ -445,7 +449,7 @@ class ConversationService:
         if report_type == GeneratedReport.ReportType.KAM:
             bundle = self.report_builder.build_kam(profile, recommendations)
         else:
-            bundle = self.report_builder.build_business_twin(profile, recommendations)
+            bundle = self.report_builder.build_company_profile(profile)
         data = bundle.report.model_dump(mode="json")
         input_fingerprint = _fingerprint(
             report_type,

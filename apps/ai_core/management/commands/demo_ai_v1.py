@@ -31,14 +31,14 @@ class Command(BaseCommand):
         )
         recommendations = service.analyze_conversation(conversation.pk)
         kam = service.generate_report(conversation.pk, "kam")
-        twin = service.generate_report(conversation.pk, "business_twin")
+        company_profile = service.generate_report(conversation.pk, "company_profile")
         self.stdout.write(
             json.dumps(
                 {
                     "turn": turn.model_dump(mode="json"),
                     "recommendations": recommendations.model_dump(mode="json"),
                     "kam": kam.model_dump(mode="json"),
-                    "business_twin": twin.model_dump(mode="json"),
+                    "company_profile": company_profile.model_dump(mode="json"),
                 },
                 ensure_ascii=False,
                 indent=2,

@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from apps.ai_core.catalog import CatalogDefinition, load_catalog
+from apps.ai_core.catalog import MAX_CATALOG_BYTES, CatalogDefinition, load_catalog
 from apps.ai_core.contracts import CompanyProfile, CompanyProfilePatch, Fact, FactStatus
 from apps.ai_core.contracts.recommendation import RecommendationStatus
 from apps.ai_core.domain import assess_qualification, merge_profile, recommend_services
@@ -55,6 +55,21 @@ def test_catalog_rejects_international_offer_without_availability_warning() -> N
     )
     with pytest.raises(ValidationError, match="need a note"):
         CatalogDefinition.model_validate(raw)
+
+
+def test_catalog_loader_rejects_non_json_missing_and_oversized_files(tmp_path: Path) -> None:
+    non_json = tmp_path / "catalog.txt"
+    non_json.write_text("{}", encoding="utf-8")
+    with pytest.raises(ValueError, match="JSON files only"):
+        load_catalog(non_json)
+
+    with pytest.raises(FileNotFoundError, match="catalog not found"):
+        load_catalog(tmp_path / "missing.json")
+
+    oversized = tmp_path / "oversized.json"
+    oversized.write_bytes(b" " * (MAX_CATALOG_BYTES + 1))
+    with pytest.raises(ValueError, match="1 MB"):
+        load_catalog(oversized)
 
 
 def test_merge_preserves_reported_fact_when_inference_conflicts() -> None:

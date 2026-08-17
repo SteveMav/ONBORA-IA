@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if is_kam %}Rapport KAM{% else %}Business Twin{% endif %} · Onbora</title>
+  <title>{% if is_kam %}Rapport KAM{% else %}Profil d’entreprise{% endif %} · Onbora</title>
   <style>
     :root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; color: #17201d; background: #f3f1eb; }
     * { box-sizing: border-box; }
@@ -37,11 +37,11 @@
   <main>
     <header>
       <p class="eyebrow">Onbora · Rapport métier</p>
-      <h1>{% if is_kam %}Rapport KAM{% else %}Business Twin{% endif %}</h1>
+      <h1>{% if is_kam %}Rapport KAM{% else %}Profil d’entreprise{% endif %}</h1>
       <div class="meta">
         <span>Statut : {{ report.status.value }}</span>
         <span>Version du contrat : {{ report.schema_version }}</span>
-        <span>Catalogue : {{ report.catalog_version }}</span>
+        {% if is_kam %}<span>Catalogue : {{ report.catalog_version }}</span>{% endif %}
         <span>Généré le {{ generated_report.created_at|date:"d/m/Y à H:i" }}</span>
       </div>
     </header>
@@ -56,6 +56,7 @@
       {% include "reports/report_items.html" with title="Points à vérifier" items=report.points_to_verify only %}
       {% include "reports/report_items.html" with title="Prochaines actions" items=report.recommended_next_actions only %}
     {% else %}
+      <p class="summary">{{ report.description }}</p>
       <dl>
         <dt>Entreprise</dt><dd>{{ report.company_summary.name|default:"À préciser" }}</dd>
         <dt>Secteur</dt><dd>{{ report.company_summary.sector|default:"À préciser" }}</dd>
@@ -63,13 +64,9 @@
         <dt>Activités</dt><dd>{{ report.company_summary.activities|join:", "|default:"À préciser" }}</dd>
         <dt>Implantations</dt><dd>{{ report.company_summary.locations|join:", "|default:"À préciser" }}</dd>
       </dl>
-      {% include "reports/report_items.html" with title="Situation actuelle" items=report.current_situation only %}
-      {% include "reports/report_items.html" with title="Besoins et difficultés" items=report.needs_and_pain_points only %}
-      {% include "reports/report_items.html" with title="Opportunités métier" items=report.business_opportunities only %}
-      {% include "reports/report_items.html" with title="Services intéressants" items=report.interesting_services only %}
-      {% include "reports/report_items.html" with title="Risques et contraintes" items=report.risks_and_constraints only %}
+      {% include "reports/report_items.html" with title="Besoins déclarés" items=report.needs only %}
+      {% include "reports/report_items.html" with title="Contraintes déclarées" items=report.constraints only %}
       {% if report.missing_information %}<section><h2>Informations manquantes</h2><ul>{% for item in report.missing_information %}<li>{{ item }}</li>{% endfor %}</ul></section>{% endif %}
-      {% include "reports/report_items.html" with title="Prochaines actions" items=report.recommended_next_actions only %}
       {% if report.sources %}<section><h2>Sources</h2><ul>{% for source in report.sources %}<li>{{ source }}</li>{% endfor %}</ul></section>{% endif %}
     {% endif %}
 
